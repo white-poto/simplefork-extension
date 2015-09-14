@@ -96,23 +96,23 @@ static zend_function_entry runnable_interface_methods[]={
 
 ZEND_METHOD(Process, __construct)
 {
-//	zval *callback_func;
-//    char *func_name;
-//
-//    if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &callback_func) != SUCCESS) {
-//    	php_error_docref(NULL TSRMLS_CC, E_WARNING, "get params error.\n");
-//    	return;
-//    }
-//    if (Z_TYPE_P(callback_func) == IS_NULL) {
-//    	return;
-//    }
-//    if (!zend_is_callable(callback_func, 0, &func_name TSRMLS_CC)) {
-//        php_error_docref(NULL TSRMLS_CC, E_WARNING, "¡¯%s¡¯ is not a valid read callback", func_name);
-////        zend_throw_exception('\\SimpleForkException',"is not a valid read callback",0 TSRMLS_CC);
-//    }
-//
-//    zend_class_entry *ce = NULL;
-//    ce = Z_OBJCE_P(getThis());
+	zval *callback_func;
+    char *func_name;
+
+    if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &callback_func) != SUCCESS) {
+    	php_error_docref(NULL TSRMLS_CC, E_WARNING, "get params error.\n");
+    	return;
+    }
+    if (Z_TYPE_P(callback_func) == IS_NULL) {
+    	return;
+    }
+    if (!zend_is_callable(callback_func, 0, &func_name TSRMLS_CC)) {
+        php_error_docref(NULL TSRMLS_CC, E_WARNING, "¡¯%s¡¯ is not a valid read callback", func_name);
+//        zend_throw_exception('\\SimpleForkException',"is not a valid read callback",0 TSRMLS_CC);
+    }
+
+    zend_class_entry *ce = NULL;
+    ce = Z_OBJCE_P(getThis());
 //    zend_update_property(ce, getThis(), "execution", sizeof("execution")-1, callback_func TSRMLS_CC);
 }
 
