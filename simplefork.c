@@ -126,7 +126,7 @@ ZEND_BEGIN_ARG_INFO(construct_arg_info, 0)
 ZEND_END_ARG_INFO()
 
 static zend_function_entry process_class_methods[]={
-//	ZEND_ME(Process, __construct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	ZEND_ME(Process, __construct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 //	ZEND_ME(Process, start, NULL, ZEND_ACC_PUBLIC)
 	{NULL,NULL,NULL}
 };
