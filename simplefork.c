@@ -119,17 +119,17 @@ static zend_function_entry runnable_interface_methods[]={
 
 
 /* SimpleFork\Process */
-//zend_class_entry *process_class_entry = NULL;
+zend_class_entry *process_class_entry = NULL;
 //
 //ZEND_BEGIN_ARG_INFO(construct_arg_info, 0)
 //    ZEND_ARG_INFO(0, execution)
 //ZEND_END_ARG_INFO()
 
-//static zend_function_entry process_class_methods[]={
+static zend_function_entry process_class_methods[]={
 //	ZEND_ME(Process, __construct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 //	ZEND_ME(Process, start, NULL, ZEND_ACC_PUBLIC)
-//	{NULL,NULL,NULL}
-//};
+	{NULL,NULL,NULL}
+};
 
 
 
@@ -211,19 +211,19 @@ PHP_MINIT_FUNCTION(simplefork)
     INIT_NS_CLASS_ENTRY(runnable_interface, "SimpleFork", "Runnable", runnable_interface_methods);
     runnable_interface_entry = zend_register_internal_interface(&runnable_interface TSRMLS_CC);
 //
-//    zend_class_entry process_class;
-//    INIT_NS_CLASS_ENTRY(process_class, "SimpleFork", "Process", process_class_methods);
-//    process_class_entry = zend_register_internal_class(&process_class TSRMLS_CC);
-//    zend_declare_property_null(process_class_entry, "queue", strlen("queue"), ZEND_ACC_PROTECTED TSRMLS_CC);
-//    zend_declare_property_null(process_class_entry, "cache", strlen("cache"), ZEND_ACC_PROTECTED TSRMLS_CC);
-//    zend_declare_property_null(process_class_entry, "runnable", strlen("runnable"), ZEND_ACC_PROTECTED TSRMLS_CC);
-//    zend_declare_property_null(process_class_entry, "execution", strlen("execution"), ZEND_ACC_PROTECTED TSRMLS_CC);
-//    zend_declare_property_null(process_class_entry, "pid", strlen("pid"), ZEND_ACC_PROTECTED TSRMLS_CC);
-//    zend_declare_property_null(process_class_entry, "alive", strlen("alive"), ZEND_ACC_PROTECTED TSRMLS_CC);
-//    zend_declare_property_null(process_class_entry, "status", strlen("status"), ZEND_ACC_PROTECTED TSRMLS_CC);
-//    zend_declare_property_null(process_class_entry, "callbacks", strlen("callbacks"), ZEND_ACC_PROTECTED TSRMLS_CC);
-//    zend_declare_class_constant_string(process_class_entry, "BEFORE_START", strlen("BEFORE_START"), CONST_CS | CONST_PERSISTENT);
-//    zend_declare_class_constant_string(process_class_entry, "BEFORE_EXIT", strlen("BEFORE_EXIT"), CONST_CS | CONST_PERSISTENT);
+    zend_class_entry process_class;
+    INIT_NS_CLASS_ENTRY(process_class, "SimpleFork", "Process", process_class_methods);
+    process_class_entry = zend_register_internal_class(&process_class TSRMLS_CC);
+    zend_declare_property_null(process_class_entry, "queue", strlen("queue"), ZEND_ACC_PROTECTED TSRMLS_CC);
+    zend_declare_property_null(process_class_entry, "cache", strlen("cache"), ZEND_ACC_PROTECTED TSRMLS_CC);
+    zend_declare_property_null(process_class_entry, "runnable", strlen("runnable"), ZEND_ACC_PROTECTED TSRMLS_CC);
+    zend_declare_property_null(process_class_entry, "execution", strlen("execution"), ZEND_ACC_PROTECTED TSRMLS_CC);
+    zend_declare_property_null(process_class_entry, "pid", strlen("pid"), ZEND_ACC_PROTECTED TSRMLS_CC);
+    zend_declare_property_null(process_class_entry, "alive", strlen("alive"), ZEND_ACC_PROTECTED TSRMLS_CC);
+    zend_declare_property_null(process_class_entry, "status", strlen("status"), ZEND_ACC_PROTECTED TSRMLS_CC);
+    zend_declare_property_null(process_class_entry, "callbacks", strlen("callbacks"), ZEND_ACC_PROTECTED TSRMLS_CC);
+    zend_declare_class_constant_string(process_class_entry, "BEFORE_START", strlen("BEFORE_START"), CONST_CS | CONST_PERSISTENT);
+    zend_declare_class_constant_string(process_class_entry, "BEFORE_EXIT", strlen("BEFORE_EXIT"), CONST_CS | CONST_PERSISTENT);
 
 	return SUCCESS;
 }
