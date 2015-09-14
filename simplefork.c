@@ -113,7 +113,7 @@ ZEND_METHOD(Process, __construct)
 
     zend_class_entry *ce = NULL;
     ce = Z_OBJCE_P(getThis());
-    zend_update_property(Z_OBJCE_P(self), self, ZEND_STRL("execution"), "execution" TSRMLS_CC);
+    zend_update_property(ce, "execution", ZEND_STRL("execution"), "execution" TSRMLS_CC);
 }
 
 
