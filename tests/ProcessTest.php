@@ -6,7 +6,7 @@
  * Date: 2015/9/9
  * Time: 14:28
  */
-class ProcessTest extends PHPUnit_Framework_TestCase
+class ProcessTest extends TestSuite
 {
     public function testProperties(){
         $process = new SimpleFork\Process();

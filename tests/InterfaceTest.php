@@ -9,7 +9,7 @@
 
 
 
-class InterfaceTest extends PHPUnit_Framework_TestCase
+class InterfaceTest extends TestSuite
 {
 
     public function testExists()
