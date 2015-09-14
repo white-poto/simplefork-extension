@@ -94,8 +94,8 @@ static zend_function_entry runnable_interface_methods[]={
 
 /* SimpleFork\Process Methods start */
 
-//ZEND_METHOD(Process, __construct)
-//{
+ZEND_METHOD(Process, __construct)
+{
 //	zval *callback_func;
 //    char *func_name;
 //
@@ -114,7 +114,7 @@ static zend_function_entry runnable_interface_methods[]={
 //    zend_class_entry *ce = NULL;
 //    ce = Z_OBJCE_P(getThis());
 //    zend_update_property(ce, getThis(), "execution", sizeof("execution")-1, callback_func TSRMLS_CC);
-//}
+}
 
 
 
