@@ -8,6 +8,10 @@
  */
 class ProcessTest extends TestSuite
 {
+    public function setUp(){
+
+    }
+
     public function testProperties(){
         $process = new SimpleFork\Process();
         $reflect = new ReflectionObject($process);

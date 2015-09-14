@@ -11,3 +11,4 @@ require_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . "InterfaceTest.php");
 require_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . "ProcessTest.php");
 
 TestSuite::run("InterfaceTest");
+TestSuite::run("ProcessTest");
