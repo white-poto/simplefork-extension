@@ -12,6 +12,10 @@
 class InterfaceTest extends TestSuite
 {
 
+    public function setUp(){
+
+    }
+
     public function testExists()
     {
         $this->assertTrue(interface_exists('SimpleFork\\CacheInterface'));
