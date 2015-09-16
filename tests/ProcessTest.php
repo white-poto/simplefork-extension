@@ -21,8 +21,12 @@ class ProcessTest extends TestSuite
     }
 
     public function testConstruct(){
-
-        $this->assertTrue(class_exists("SimpleFork\\Process"));
+        try{
+            $process = new SimpleFork\Process("test");
+        }catch (Exception $e){
+            $this->assertEquals(0, $e->getCode());
+            $this->assertEquals("execution param must be callable", $e->getMessage());
+        }
 
     }
 
