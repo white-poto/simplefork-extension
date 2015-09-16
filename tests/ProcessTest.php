@@ -21,6 +21,13 @@ class ProcessTest extends TestSuite
         $this->assertTrue($reflect->hasConstant("BEFORE_EXIT"));
     }
 
+    public function testConstruct(){
+        $process = new SimpleFork\Process(function(){
+
+        });
+
+    }
+
 
 
 }
