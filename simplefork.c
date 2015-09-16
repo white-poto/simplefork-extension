@@ -92,14 +92,6 @@ static zend_function_entry runnable_interface_methods[]={
 };
 
 
-/* SimpleFork\Process Methods start */
-
-ZEND_METHOD(Process, __construct)
-{
-
-}
-
-
 
 /* SimpleFork\Process */
 zend_class_entry *process_class_entry = NULL;
@@ -113,6 +105,14 @@ static zend_function_entry process_class_methods[]={
 //	ZEND_ME(Process, start, NULL, ZEND_ACC_PUBLIC)
 	{NULL,NULL,NULL}
 };
+
+
+/* SimpleFork\Process Methods start */
+
+ZEND_METHOD(Process, __construct)
+{
+
+}
 
 
 
@@ -195,7 +195,7 @@ PHP_MINIT_FUNCTION(simplefork)
     runnable_interface_entry = zend_register_internal_interface(&runnable_interface TSRMLS_CC);
 //
     zend_class_entry process_class;
-    INIT_CLASS_ENTRY(process_class, "Process", process_class_methods);
+    INIT_NS_CLASS_ENTRY(process_class, "SimpleFork", "Process", process_class_methods);
     process_class_entry = zend_register_internal_class(&process_class TSRMLS_CC);
     zend_declare_property_null(process_class_entry, "queue", strlen("queue"), ZEND_ACC_PROTECTED TSRMLS_CC);
     zend_declare_property_null(process_class_entry, "cache", strlen("cache"), ZEND_ACC_PROTECTED TSRMLS_CC);
