@@ -68,7 +68,7 @@ ZEND_END_MODULE_GLOBALS(simplefork)
 
 #include "zend_exceptions.h"
 
-PHP_METHOD(Process, __construct);
+
 
 
 /*

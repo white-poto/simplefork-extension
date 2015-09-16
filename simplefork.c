@@ -27,6 +27,9 @@
 #include "ext/standard/info.h"
 #include "php_simplefork.h"
 
+
+PHP_METHOD(Process, __construct);
+
 /* If you declare any globals in php_simplefork.h uncomment this:
 ZEND_DECLARE_MODULE_GLOBALS(simplefork)
 */
@@ -96,12 +99,11 @@ static zend_function_entry runnable_interface_methods[]={
 /* SimpleFork\Process */
 zend_class_entry *process_class_entry = NULL;
 //
-ZEND_BEGIN_ARG_INFO(construct_arg_info, 0)
-    ZEND_ARG_INFO(0, execution)
-ZEND_END_ARG_INFO()
+
 
 static zend_function_entry process_class_methods[]={
 	ZEND_ME(Process, __construct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	ZEND_ME(Process, __destruct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_DTOR)
 //	ZEND_ME(Process, start, NULL, ZEND_ACC_PUBLIC)
 	{NULL,NULL,NULL}
 };
@@ -114,7 +116,10 @@ ZEND_METHOD(Process, __construct)
 
 }
 
+ZEND_METHOD(Process, __destruct)
+{
 
+}
 
 
 /* {{{ PHP_INI
