@@ -25,6 +25,7 @@ class ProcessTest extends TestSuite
         $process = new SimpleFork\Process(function(){
 
         });
+        $this->assertTrue(true);
 
     }
 
