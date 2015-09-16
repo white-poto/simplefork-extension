@@ -72,6 +72,7 @@ ZEND_END_MODULE_GLOBALS(simplefork)
 PHP_METHOD(Process, __construct);
 PHP_METHOD(Process, __destruct);
 PHP_METHOD(Process, test);
+PHP_MINIT_FUNCTION(simplefork);
 
 
 /*
