@@ -115,7 +115,17 @@ static zend_function_entry process_class_methods[]={
 */
 PHP_METHOD(Process, __construct)
 {
+	zval *execution = NULL;
+	zend_string *execution_name = NULL;
+	if (FAILURE == zend_parse_parameters(ZEND_NUM_ARGS(), "z", &execution)){
+		RETURN_FALSE;
+	}
 
+	if(zend_is_callable(execution, 0, execution_name)){
+		zend_string_release(execution_name);
+		zend_throw_exception(simplefork_exception_entry, "execution param must be callable",0 TSRMLS_CC)
+	}
+	zend_update_property(process_class_entry, getThis(), "execution", sizeof("execution")-1, execution TSRMLS_CC);
 }
 /* }}} */
 
