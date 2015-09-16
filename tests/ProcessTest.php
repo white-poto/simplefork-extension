@@ -14,7 +14,6 @@ class ProcessTest extends TestSuite
 
     public function testProperties(){
         $reflect = new ReflectionClass("SimpleFork\\Process");
-        print_r($reflect->getMethods());
         $this->assertTrue($reflect->hasMethod("__destruct"));
         $this->assertTrue($reflect->hasMethod("__construct"));
         $this->assertTrue($reflect->hasConstant("BEFORE_START"));
@@ -25,13 +24,7 @@ class ProcessTest extends TestSuite
         $process = new SimpleFork\Process(function(){
 
         });
-        $this->assertTrue(true);
-        $reflect = new ReflectionClass("SimpleFork\\Process");
-        print_r($reflect->getMethods());
-        $this->assertTrue($reflect->hasMethod("__destruct"));
-        $this->assertTrue($reflect->hasMethod("__construct"));
-        $this->assertTrue($reflect->hasConstant("BEFORE_START"));
-        $this->assertTrue($reflect->hasConstant("BEFORE_EXIT"));
+        $this->assertTrue(class_exists("SimpleFork\\Process"));
 
     }
 
