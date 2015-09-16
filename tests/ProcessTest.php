@@ -13,8 +13,7 @@ class ProcessTest extends TestSuite
     }
 
     public function testProperties(){
-        $process = new SimpleFork\Process();
-        $reflect = new ReflectionObject($process);
+        $reflect = new ReflectionClass("SimpleFork\\Process");
         $this->assertTrue($reflect->hasConstant("BEFORE_START"));
         $this->assertTrue($reflect->hasConstant("BEFORE_EXIT"));
     }
