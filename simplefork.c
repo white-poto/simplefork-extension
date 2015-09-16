@@ -98,14 +98,6 @@ static zend_function_entry runnable_interface_methods[]={
 /* SimpleFork\Process */
 zend_class_entry *process_class_entry = NULL;
 
-static zend_function_entry process_class_methods[]={
-	PHP_ME(Process, __construct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
-	PHP_ME(Process, __destruct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_DTOR)
-	PHP_ME(Process, test, NULL, ZEND_ACC_PUBLIC)
-	{NULL,NULL,NULL}
-};
-
-
 /* SimpleFork\Process Methods start */
 /** {{{
 */
@@ -130,6 +122,16 @@ PHP_METHOD(Process, test)
 
 }
 /* }}} */
+
+static zend_function_entry process_class_methods[]={
+	PHP_ME(Process, __construct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Process, __destruct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_DTOR)
+	PHP_ME(Process, test, NULL, ZEND_ACC_PUBLIC)
+	{NULL,NULL,NULL}
+};
+
+
+
 
 
 /* {{{ PHP_INI
