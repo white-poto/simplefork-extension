@@ -68,13 +68,14 @@ ZEND_END_MODULE_GLOBALS(simplefork)
 
 #include "zend_exceptions.h"
 
+PHP_MINIT_FUNCTION(simplefork);
+PHP_MINIT_FUNCTION(simplefork);
+PHP_MSHUTDOWN_FUNCTION(simplefork);
 
 PHP_METHOD(Process, __construct);
 PHP_METHOD(Process, __destruct);
 PHP_METHOD(Process, test);
-PHP_MINIT_FUNCTION(simplefork);
-PHP_MINIT_FUNCTION(simplefork);
-PHP_MSHUTDOWN_FUNCTION(simplefork);
+
 
 
 /*
