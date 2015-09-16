@@ -29,6 +29,7 @@
 
 
 PHP_METHOD(Process, __construct);
+PHP_METHOD(Process, __destruct);
 
 /* If you declare any globals in php_simplefork.h uncomment this:
 ZEND_DECLARE_MODULE_GLOBALS(simplefork)
