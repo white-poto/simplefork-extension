@@ -205,8 +205,8 @@ PHP_MINIT_FUNCTION(simplefork)
     zend_declare_property_null(process_class_entry, "alive", strlen("alive"), ZEND_ACC_PROTECTED TSRMLS_CC);
     zend_declare_property_null(process_class_entry, "status", strlen("status"), ZEND_ACC_PROTECTED TSRMLS_CC);
     zend_declare_property_null(process_class_entry, "callbacks", strlen("callbacks"), ZEND_ACC_PROTECTED TSRMLS_CC);
-//    zend_declare_class_constant_stringl(process_class_entry, ZEND_STRL("BEFORE_START"), ZEND_STRL("beforeStart") TSRMLS_CC);
-//    zend_declare_class_constant_stringl(process_class_entry, ZEND_STRL("BEFORE_EXIT"), ZEND_STRL("BEFORE_EXIT") TSRMLS_CC);
+    zend_declare_class_constant_stringl(process_class_entry, ZEND_STRL("BEFORE_START"), ZEND_STRL("beforeStart") TSRMLS_CC);
+    zend_declare_class_constant_stringl(process_class_entry, ZEND_STRL("BEFORE_EXIT"), ZEND_STRL("BEFORE_EXIT") TSRMLS_CC);
 
 	return SUCCESS;
 }
