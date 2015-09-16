@@ -113,12 +113,12 @@ static zend_function_entry process_class_methods[]={
 
 /* SimpleFork\Process Methods start */
 
-PHP_FUNCTION(Process, __construct)
+PHP_METHOD(Process, __construct)
 {
 
 }
 
-PHP_FUNCTION(Process, __destruct)
+PHP_METHOD(Process, __destruct)
 {
 
 }
