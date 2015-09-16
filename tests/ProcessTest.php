@@ -21,9 +21,7 @@ class ProcessTest extends TestSuite
     }
 
     public function testConstruct(){
-        $process = new SimpleFork\Process(function(){
 
-        });
         $this->assertTrue(class_exists("SimpleFork\\Process"));
 
     }
