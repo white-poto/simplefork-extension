@@ -28,8 +28,6 @@
 #include "php_simplefork.h"
 
 
-PHP_METHOD(Process, __construct);
-PHP_METHOD(Process, __destruct);
 
 /* If you declare any globals in php_simplefork.h uncomment this:
 ZEND_DECLARE_MODULE_GLOBALS(simplefork)
@@ -106,6 +104,7 @@ zend_class_entry *process_class_entry = NULL;
 static zend_function_entry process_class_methods[]={
 	PHP_ME(Process, __construct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Process, __destruct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_DTOR)
+	PHP_ME(Process, test, NULL, ZEND_ACC_PUBLIC)
 //	ZEND_ME(Process, start, NULL, ZEND_ACC_PUBLIC)
 	{NULL,NULL,NULL}
 };
@@ -123,6 +122,10 @@ PHP_METHOD(Process, __destruct)
 
 }
 
+PHP_METHOD(Process, test)
+{
+
+}
 
 
 
