@@ -189,38 +189,38 @@ PHP_MINIT_FUNCTION(simplefork)
 	REGISTER_INI_ENTRIES();
 	*/
 
-	    zend_class_entry process_class;
-        INIT_CLASS_ENTRY(process_class, "Process", process_class_methods);
-        process_class_entry = zend_register_internal_class(&process_class TSRMLS_CC);
-        zend_declare_property_null(process_class_entry, "queue", strlen("queue"), ZEND_ACC_PROTECTED TSRMLS_CC);
-        zend_declare_property_null(process_class_entry, "cache", strlen("cache"), ZEND_ACC_PROTECTED TSRMLS_CC);
-        zend_declare_property_null(process_class_entry, "runnable", strlen("runnable"), ZEND_ACC_PROTECTED TSRMLS_CC);
-        zend_declare_property_null(process_class_entry, "execution", strlen("execution"), ZEND_ACC_PROTECTED TSRMLS_CC);
-        zend_declare_property_null(process_class_entry, "pid", strlen("pid"), ZEND_ACC_PROTECTED TSRMLS_CC);
-        zend_declare_property_null(process_class_entry, "alive", strlen("alive"), ZEND_ACC_PROTECTED TSRMLS_CC);
-        zend_declare_property_null(process_class_entry, "status", strlen("status"), ZEND_ACC_PROTECTED TSRMLS_CC);
-        zend_declare_property_null(process_class_entry, "callbacks", strlen("callbacks"), ZEND_ACC_PROTECTED TSRMLS_CC);
-        zend_declare_class_constant_stringl(process_class_entry, ZEND_STRL("BEFORE_START"), ZEND_STRL("beforeStart") TSRMLS_CC);
-        zend_declare_class_constant_stringl(process_class_entry, ZEND_STRL("BEFORE_EXIT"), ZEND_STRL("BEFORE_EXIT") TSRMLS_CC);
+    zend_class_entry process_class;
+    INIT_CLASS_ENTRY(process_class, "Process", process_class_methods);
+    process_class_entry = zend_register_internal_class(&process_class TSRMLS_CC);
+    zend_declare_property_null(process_class_entry, "queue", strlen("queue"), ZEND_ACC_PROTECTED TSRMLS_CC);
+    zend_declare_property_null(process_class_entry, "cache", strlen("cache"), ZEND_ACC_PROTECTED TSRMLS_CC);
+    zend_declare_property_null(process_class_entry, "runnable", strlen("runnable"), ZEND_ACC_PROTECTED TSRMLS_CC);
+    zend_declare_property_null(process_class_entry, "execution", strlen("execution"), ZEND_ACC_PROTECTED TSRMLS_CC);
+    zend_declare_property_null(process_class_entry, "pid", strlen("pid"), ZEND_ACC_PROTECTED TSRMLS_CC);
+    zend_declare_property_null(process_class_entry, "alive", strlen("alive"), ZEND_ACC_PROTECTED TSRMLS_CC);
+    zend_declare_property_null(process_class_entry, "status", strlen("status"), ZEND_ACC_PROTECTED TSRMLS_CC);
+    zend_declare_property_null(process_class_entry, "callbacks", strlen("callbacks"), ZEND_ACC_PROTECTED TSRMLS_CC);
+    zend_declare_class_constant_stringl(process_class_entry, ZEND_STRL("BEFORE_START"), ZEND_STRL("beforeStart") TSRMLS_CC);
+    zend_declare_class_constant_stringl(process_class_entry, ZEND_STRL("BEFORE_EXIT"), ZEND_STRL("BEFORE_EXIT") TSRMLS_CC);
 
 	zend_class_entry simplefork_exception;
     INIT_CLASS_ENTRY(simplefork_exception, "SimpleForkException", NULL);
     simplefork_exception_entry = zend_register_internal_class_ex(&simplefork_exception, (zend_class_entry *)zend_exception_get_default(), NULL TSRMLS_CC);
 
 	zend_class_entry cache_interface;
-  	INIT_NS_CLASS_ENTRY(cache_interface, "SimpleFork", "CacheInterface", cache_interface_methods);
+  	INIT_CLASS_ENTRY(cache_interface, "CacheInterface", cache_interface_methods);
   	cache_interface_entry = zend_register_internal_interface(&cache_interface TSRMLS_CC);
 
   	zend_class_entry queue_interface;
-  	INIT_NS_CLASS_ENTRY(queue_interface, "SimpleFork", "QueueInterface", queue_interface_methods);
+  	INIT_CLASS_ENTRY(queue_interface, "QueueInterface", queue_interface_methods);
   	queue_interface_entry = zend_register_internal_interface(&queue_interface TSRMLS_CC);
 
     zend_class_entry lock_interface;
-    INIT_NS_CLASS_ENTRY(lock_interface, "SimpleFork", "LockInterface", lock_interface_methods);
+    INIT_CLASS_ENTRY(lock_interface, "LockInterface", lock_interface_methods);
     lock_interface_entry = zend_register_internal_interface(&lock_interface TSRMLS_CC);
 
     zend_class_entry runnable_interface;
-    INIT_NS_CLASS_ENTRY(runnable_interface, "SimpleFork", "Runnable", runnable_interface_methods);
+    INIT_CLASS_ENTRY(runnable_interface, "Runnable", runnable_interface_methods);
     runnable_interface_entry = zend_register_internal_interface(&runnable_interface TSRMLS_CC);
 
 	return SUCCESS;
