@@ -96,7 +96,7 @@ static zend_function_entry runnable_interface_methods[]={
 
 
 /* SimpleFork\Process */
-zend_class_entry *process_class_entry = NULL;
+zend_class_entry *process_class_entry;
 
 /* SimpleFork\Process Methods start */
 /** {{{
