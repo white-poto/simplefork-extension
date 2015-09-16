@@ -27,7 +27,10 @@
 #include "ext/standard/info.h"
 #include "php_simplefork.h"
 
-#include <Zend_API.h>
+#include <zend.h>
+#include <zend_API.h>
+#include <zend_hash.h>
+#include <zend_alloc.h>
 
 
 
