@@ -99,12 +99,13 @@ static zend_function_entry runnable_interface_methods[]={
 zend_class_entry *process_class_entry = NULL;
 //
 
-
+ZEND_BEGIN_ARG_INFO(process_construct_args, 0)
+	ZEND_ARG_INFO(0, execution)
+ZEND_END_ARG_INFO()
 
 static zend_function_entry process_class_methods[]={
-	PHP_ME(Process, __construct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Process, __construct, process_construct_args, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Process, __destruct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_DTOR)
-	PHP_ME(Process, test, NULL, ZEND_ACC_PUBLIC)
 	{NULL,NULL,NULL}
 };
 
@@ -126,13 +127,6 @@ PHP_METHOD(Process, __destruct)
 }
 /* }}} */
 
-/** {{{
-*/
-PHP_METHOD(Process, test)
-{
-
-}
-/* }}} */
 
 
 /* {{{ PHP_INI
@@ -211,7 +205,7 @@ PHP_MINIT_FUNCTION(simplefork)
     zend_class_entry runnable_interface;
     INIT_NS_CLASS_ENTRY(runnable_interface, "SimpleFork", "Runnable", runnable_interface_methods);
     runnable_interface_entry = zend_register_internal_interface(&runnable_interface TSRMLS_CC);
-//
+
     zend_class_entry process_class;
     INIT_NS_CLASS_ENTRY(process_class, "SimpleFork", "Process", process_class_methods);
     process_class_entry = zend_register_internal_class(&process_class TSRMLS_CC);
