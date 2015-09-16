@@ -24,6 +24,8 @@
 
 #include "php.h"
 #include "php_ini.h"
+#include "php_readline.h"
+#include "readline_cli.h"
 #include "ext/standard/info.h"
 #include "php_simplefork.h"
 
