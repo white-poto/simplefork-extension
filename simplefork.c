@@ -29,8 +29,7 @@
 
 #include <zend.h>
 #include <zend_API.h>
-#include <zend_hash.h>
-#include <zend_alloc.h>
+#include <zend_string.h>
 
 
 
