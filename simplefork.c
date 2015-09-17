@@ -106,10 +106,14 @@ zend_class_entry *process_class_entry = NULL;
 ZEND_BEGIN_ARG_INFO(process_construct_args, 0)
 	ZEND_ARG_INFO(0, execution)
 ZEND_END_ARG_INFO()
+ZEND_BEGIN_ARG_INFO(process_set_cache_args, 0)
+	ZEND_ARG_OBJ_INFO(1, cache, CacheInterface, 0)
+ZEND_END_ARG_INFO()
 
 static zend_function_entry process_class_methods[]={
 	PHP_ME(Process, __construct, process_construct_args, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Process, __destruct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_DTOR)
+	PHP_ME(Process, setCache, process_set_cache_args, ZEND_ACC_PUBLIC|ZEND_ACC_DTOR)
 	{NULL,NULL,NULL}
 };
 
@@ -139,6 +143,16 @@ PHP_METHOD(Process, __destruct)
 
 }
 /* }}} */
+
+
+PHP_METHOD(Process, setCache)
+{
+	zval *cache = NULL;
+	if (FAILURE == zend_parse_parameters(ZEND_NUM_ARGS(), "z", &cache)){
+    	RETURN_FALSE;
+    }
+	zend_update_property(process_class_entry, getThis(), "cache", sizeof("cache")-1, cache TSRMLS_CC)
+}
 
 
 
