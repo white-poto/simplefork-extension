@@ -27,9 +27,6 @@ class ProcessTest extends TestSuite
             $this->assertEquals(0, $e->getCode());
             $this->assertEquals("execution param must be callable", $e->getMessage());
         }
-
+        $this->assertTrue(isset($e));
     }
-
-
-
 }
