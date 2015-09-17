@@ -37,5 +37,6 @@ class ProcessTest extends TestSuite
             });
         }
         $this->assertTrue(!isset($e_2));
+        var_dump($process_2);
     }
 }
