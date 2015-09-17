@@ -151,7 +151,7 @@ PHP_METHOD(Process, setCache)
 	if (FAILURE == zend_parse_parameters(ZEND_NUM_ARGS(), "z", &cache)){
     	RETURN_FALSE;
     }
-	zend_update_property(process_class_entry, getThis(), "cache", sizeof("cache")-1, cache TSRMLS_CC)
+	zend_update_property(process_class_entry, getThis(), "cache", sizeof("cache")-1, cache TSRMLS_CC);
 }
 
 
