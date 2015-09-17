@@ -28,5 +28,14 @@ class ProcessTest extends TestSuite
             $this->assertEquals("execution param must be callable", $e->getMessage());
         }
         $this->assertTrue(isset($e));
+
+        try{
+
+        }catch (Exception $e_2){
+            $process_2 = new SimpleFork\Process(function(){
+
+            });
+        }
+        $this->assertTrue(!isset($e_2));
     }
 }
