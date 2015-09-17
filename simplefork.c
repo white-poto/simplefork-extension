@@ -125,7 +125,7 @@ PHP_METHOD(Process, __construct)
 		RETURN_FALSE;
 	}
 
-	if(zend_is_callable(execution, 0, &execution_name)){
+	if(!zend_is_callable(execution, 0, &execution_name)){
 		zend_throw_exception(simplefork_exception_entry, "execution param must be callable",0 TSRMLS_CC);
 	}
 	zend_update_property(process_class_entry, getThis(), "execution", sizeof("execution")-1, execution TSRMLS_CC);
