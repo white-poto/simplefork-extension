@@ -131,6 +131,7 @@ static zend_function_entry process_class_methods[]={
 	PHP_ME(Process, isAlive, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Process, exitCode, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Process, on, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Process, start, NULL, ZEND_ACC_PUBLIC)
 	{NULL,NULL,NULL}
 };
 
@@ -220,7 +221,7 @@ PHP_METHOD(Process, on)
 	if (FAILURE == zend_parse_parameters(ZEND_NUM_ARGS(), "sz", &event, &event_len, &callback)){
     	RETURN_FALSE;
     }
-    
+
 }
 
 

@@ -78,6 +78,7 @@ PHP_METHOD(Process, getPid);
 PHP_METHOD(Process, isAlive);
 PHP_METHOD(Process, exitCode);
 PHP_METHOD(Process, on);
+PHP_METHOD(Process, start);
 
 
 PHP_MINIT_FUNCTION(simplefork);
