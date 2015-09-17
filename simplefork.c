@@ -156,6 +156,14 @@ PHP_METHOD(Process, setCache)
 
 
 
+zend_class_entry *shared_memory_cache_class_entry = NULL;
+static zend_function_entry shared_memory_cache_methods[]={
+
+	{NULL,NULL,NULL}
+};
+
+
+
 /* {{{ PHP_INI
  */
 /* Remove comments and fill if you need to have entries in php.ini
@@ -246,6 +254,11 @@ PHP_MINIT_FUNCTION(simplefork)
     zend_declare_property_null(process_class_entry, "callbacks", strlen("callbacks"), ZEND_ACC_PROTECTED TSRMLS_CC);
     zend_declare_class_constant_stringl(process_class_entry, ZEND_STRL("BEFORE_START"), ZEND_STRL("beforeStart") TSRMLS_CC);
     zend_declare_class_constant_stringl(process_class_entry, ZEND_STRL("BEFORE_EXIT"), ZEND_STRL("BEFORE_EXIT") TSRMLS_CC);
+
+	zend_class_entry shared_memory_cache_class;
+	INIT_NS_CLASS_ENTRY(shared_memory_cache_class, "SimpleFork", "SharedMemory", shared_memory_cache_methods);
+	shared_memory_cache_class_entry = zend_register_internal_class(&shared_memory_cache_class TSRMLS_CC);
+	zend_class_implements(shared_memory_cache_class_entry TSRMLS_CC, 1, cache_interface_entry);
 
 	return SUCCESS;
 }
