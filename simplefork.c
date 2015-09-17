@@ -31,6 +31,15 @@
 #include <zend_API.h>
 #include <zend_string.h>
 
+#include<sys/types.h>
+#include<sys/stat.h>
+#include<fcntl.h>
+
+#include <sys/ipc.h>
+#include <sys/shm.h>
+#include <sys/types.h>
+#include <unistd.h>
+
 
 
 /* If you declare any globals in php_simplefork.h uncomment this:
@@ -109,11 +118,19 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO(process_set_cache_args, 0)
 	ZEND_ARG_OBJ_INFO(1, cache, CacheInterface, 0)
 ZEND_END_ARG_INFO()
+ZEND_BEGIN_ARG_INFO(process_set_queue_args, 0)
+	ZEND_ARG_OBJ_INFO(1, queue, QueueInterface, 0)
+ZEND_END_ARG_INFO()
 
 static zend_function_entry process_class_methods[]={
 	PHP_ME(Process, __construct, process_construct_args, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Process, __destruct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_DTOR)
-	PHP_ME(Process, setCache, process_set_cache_args, ZEND_ACC_PUBLIC|ZEND_ACC_DTOR)
+	PHP_ME(Process, setCache, process_set_cache_args, ZEND_ACC_PUBLIC)
+	PHP_ME(Process, setQueue, process_set_queue_args, ZEND_ACC_PUBLIC)
+	PHP_ME(Process, getPid, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Process, isAlive, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Process, exitCode, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Process, on, NULL, ZEND_ACC_PUBLIC)
 	{NULL,NULL,NULL}
 };
 
@@ -148,19 +165,65 @@ PHP_METHOD(Process, __destruct)
 PHP_METHOD(Process, setCache)
 {
 	zval *cache = NULL;
-	if (FAILURE == zend_parse_parameters(ZEND_NUM_ARGS(), "z", &cache)){
+	if (FAILURE == zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &cache)){
     	RETURN_FALSE;
     }
 	zend_update_property(process_class_entry, getThis(), "cache", sizeof("cache")-1, cache TSRMLS_CC);
 }
 
+PHP_METHOD(Process, setQueue)
+{
+	zval *queue = NULL;
+	if(FAILURE == zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &queue)){
+		RETURN_FALSE;
+	}
+	zend_update_property(process_class_entry, getThis(), "queue", sizeof("queue")-1, queue TSRMLS_CC);
+}
+
+PHP_METHOD(Process, getPid)
+{
+	zval *pid = zend_read_property(process_class_entry, getThis(), "pid", sizeof("pid")-1, 0 TSRMLS_DC);
+	RETURN_LONG(Z_LVAL_P(pid));
+}
+
+PHP_METHOD(Process, isAlive)
+{
+	zval *is_alive = zend_read_property(process_class_entry, getThis(), "alive", sizeof("alive")-1, 0 TSRMLS_DC);
+	zend_bool alive = Z_BVAL_P(is_alive);
+	if(alive){
+		RETURN_TRUE;
+	}else{
+		RETURN_FALSE;
+	}
+}
+
+PHP_METHOD(Process, exitCode)
+{
+	zval *status = zend_read_property(process_class_entry, getThis(), "status", sizeof("alive")-1, 0 TSRMLS_DC);
+	RETURN_LONG(Z_LVAL_P(status));
+}
+
+PHP_METHOD(Process, start)
+{
+	zval is_alive = call_user_function(NULL, getThis(), isAlive, NULL, 0 ,NULL TSRMLS_CC);
+	zend_bool alive = Z_BVAL_P(is_alive);
+	if(alive){
+		zend_throw_exception(simplefork_exception_entry, "the process is running already", 0 TSRMLS_CC);
+	}
+}
+
+PHP_METHOD(Process, on)
+{
+	char *event = NULL;
+	int event_len = 0;
+	zval *callback = NULL;
+	if (FAILURE == zend_parse_parameters(ZEND_NUM_ARGS(), "sz", &event, &event_len, &callback)){
+    	RETURN_FALSE;
+    }
+    
+}
 
 
-zend_class_entry *shared_memory_cache_class_entry = NULL;
-static zend_function_entry shared_memory_cache_methods[]={
-
-	{NULL,NULL,NULL}
-};
 
 
 
@@ -254,11 +317,6 @@ PHP_MINIT_FUNCTION(simplefork)
     zend_declare_property_null(process_class_entry, "callbacks", strlen("callbacks"), ZEND_ACC_PROTECTED TSRMLS_CC);
     zend_declare_class_constant_stringl(process_class_entry, ZEND_STRL("BEFORE_START"), ZEND_STRL("beforeStart") TSRMLS_CC);
     zend_declare_class_constant_stringl(process_class_entry, ZEND_STRL("BEFORE_EXIT"), ZEND_STRL("BEFORE_EXIT") TSRMLS_CC);
-
-	zend_class_entry shared_memory_cache_class;
-	INIT_NS_CLASS_ENTRY(shared_memory_cache_class, "SimpleFork", "SharedMemory", shared_memory_cache_methods);
-	shared_memory_cache_class_entry = zend_register_internal_class(&shared_memory_cache_class TSRMLS_CC);
-	zend_class_implements(shared_memory_cache_class_entry TSRMLS_CC, 1, cache_interface_entry);
 
 	return SUCCESS;
 }
