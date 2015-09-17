@@ -30,11 +30,11 @@ class ProcessTest extends TestSuite
         $this->assertTrue(isset($e));
 
         try{
-
-        }catch (Exception $e_2){
             $process_2 = new SimpleFork\Process(function(){
 
             });
+        }catch (Exception $e_2){
+
         }
         $this->assertTrue(!isset($e_2));
         var_dump($process_2);
