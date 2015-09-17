@@ -187,16 +187,7 @@ PHP_METHOD(Process, getPid)
 	RETURN_LONG(Z_LVAL_P(pid));
 }
 
-PHP_METHOD(Process, isAlive)
-{
-	zval *is_alive = zend_read_property(process_class_entry, getThis(), "alive", sizeof("alive")-1, 0 TSRMLS_DC);
-	zend_bool alive = Z_BVAL_P(is_alive);
-	if(alive){
-		RETURN_TRUE;
-	}else{
-		RETURN_FALSE;
-	}
-}
+
 
 PHP_METHOD(Process, exitCode)
 {
@@ -223,6 +214,17 @@ PHP_METHOD(Process, on)
     	RETURN_FALSE;
     }
 
+}
+
+PHP_METHOD(Process, isAlive)
+{
+	zval *is_alive = zend_read_property(process_class_entry, getThis(), "alive", sizeof("alive")-1, 0 TSRMLS_DC);
+	zend_bool alive = Z_BVAL_P(is_alive);
+	if(alive){
+		RETURN_TRUE;
+	}else{
+		RETURN_FALSE;
+	}
 }
 
 
