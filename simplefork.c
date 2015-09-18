@@ -214,7 +214,7 @@ PHP_METHOD(Process, start)
 	zval *is_alive = NULL;
 
 	if(call_user_function(NULL, &(obj), method_name, is_alive, 0 ,NULL TSRMLS_CC) != SUCCESS){
-		zend_throw_exception("call isAlive method failed");
+		zend_throw_exception(simplefork_exception_entry, "call isAlive method failed", 0 TSRMLS_CC);
 	}
 
 	zend_bool alive = Z_BVAL_P(is_alive);
