@@ -151,6 +151,9 @@ PHP_METHOD(Process, __construct)
 		zend_throw_exception(simplefork_exception_entry, "execution param must be callable",0 TSRMLS_CC);
 	}
 	zend_update_property(process_class_entry, getThis(), "execution", sizeof("execution")-1, execution TSRMLS_CC);
+
+	HashTable *callbacks = NULL;
+	zend_update_property(process_class_entry, getThis(), "callbacks", sizeof("callbacks")-1, callbacks TSRMLS_CC);
 }
 /* }}} */
 
@@ -231,7 +234,15 @@ PHP_METHOD(Process, on)
 	if (FAILURE == zend_parse_parameters(ZEND_NUM_ARGS(), "sz", &event, &event_len, &callback)){
     	RETURN_FALSE;
     }
+    HashTable *callbacks = zend_read_property(process_class_entry, getThis(), "callbacks", sizeof("callbacks")-1, 0 TSRMLS_DC);
+    if(callbacks == NULL){
+    	ALLOC_HASHTABLE(callbacks);
+    }
+	if(zend_hash_update(callbacks, &event, event_len, callback, sizeof(callback*), NULL) == FAILURE){
+		zend_throw_exception(simplefork_exception_entry, "register callback function failed");
+	}
 
+	RETURN TRUE;
 }
 
 
