@@ -207,7 +207,7 @@ PHP_METHOD(Process, exitCode)
 
 PHP_METHOD(Process, start)
 {
-	char []method_name = "isAlive";
+	char method_name[] = "isAlive";
 	zval *obj = getThis();
 	zval is_alive = call_user_function(NULL, &(obj), &method_name, NULL, 0 ,NULL TSRMLS_CC);
 	zend_bool alive = Z_BVAL_P(is_alive);
