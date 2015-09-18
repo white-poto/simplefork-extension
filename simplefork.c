@@ -132,6 +132,9 @@ static zend_function_entry process_class_methods[]={
 	PHP_ME(Process, exitCode, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Process, on, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Process, start, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Process, getCallback, NULL, ZEND_ACC_PROTECTED)
+	PHP_ME(Process, run, NULL, ZEND_ACC_PROTECTED)
+	PHP_ME(Process, wait, NULL, ZEND_ACC_PROTECTED)
 	{NULL,NULL,NULL}
 };
 
@@ -201,7 +204,6 @@ PHP_METHOD(Process, isAlive)
 	}
 }
 
-
 PHP_METHOD(Process, exitCode)
 {
 	zval *status = zend_read_property(process_class_entry, getThis(), "status", sizeof("alive")-1, 0 TSRMLS_DC);
@@ -249,7 +251,55 @@ PHP_METHOD(Process, on)
 	RETURN_TRUE;
 }
 
+PHP_METHOD(Process, getCallback)
+{
+	zval *callback = NULL;
+	zval *runnable = zend_read_property(process_class_entry, getThis(), "runnable", sizeof("runnable")-1, 0 TSRMLS_DC);
+	zval *execution = zend_read_property(process_class_entry, getThis(), "execution", sizeof("execution")-1, 0 TSRMLS_DC);
 
+	if(Z_TYPE_P(runable) == IS_OBJECT){
+		RETURN_STRING("runnable", 1);
+	}else if(Z_TYPE_P(execution) != IS_NULL){
+		RETURN_STRING("execution", 1);
+	}else{
+		RETURN_STRING("run", 1);
+	}
+}
+
+PHP_METHOD(Process, run)
+{
+
+}
+
+PHP_METHOD(Process, wait)
+{
+	zend_bool *block = NULL;
+	long sleep = 100;
+	if (FAILURE == zend_parse_parameters(ZEND_NUM_ARGS(), "|bl", &block, *sleep)){
+        RETURN_FALSE;
+    }
+
+	zval *z_pid = zend_read_property(process_class_entry, getThis(), "pid", sizeof("pid")-1, 0 TSRMLS_DC);
+	pid_t pid = Z_LVAL_P(z_pid);
+	int *status = NULL;
+	while(1){
+		int res = waitpid(pid, status, WNOHANG);
+		if(res != 0){
+			zval *alive = zend_read_property(process_class_entry, getThis(), "alive", sizeof("alive")-1, 0 TSRMLS_DC);
+			ZVAL_BOOL(alive, 0);
+		}
+
+		if(res < 0){
+			zend_throw_exception(simplefork_exception_entry, "wait sub process failed", 0 TSRMLS_CC);
+		}
+
+		if(!&block){
+			break;
+		}
+
+		usleep(sleep);
+	}
+}
 
 
 
