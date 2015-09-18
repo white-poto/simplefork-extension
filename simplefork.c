@@ -297,9 +297,7 @@ PHP_METHOD(Process, wait)
 		if(res < 0){
         	zend_throw_exception(simplefork_exception_entry, "wait sub process failed", 0 TSRMLS_CC);
         	return;
-        }
-
-		if(res != 0){
+        }else if(res > 0){
 			zval *alive = zend_read_property(process_class_entry, getThis(), "alive", sizeof("alive")-1, 0 TSRMLS_DC);
 			ZVAL_BOOL(alive, 0);
 			RETURN_TRUE;
