@@ -207,8 +207,9 @@ PHP_METHOD(Process, exitCode)
 
 PHP_METHOD(Process, start)
 {
+	char []method_name = "isAlive";
 	zval *obj = getThis();
-	zval is_alive = call_user_function(NULL, &(obj), "isAlive", NULL, 0 ,NULL TSRMLS_CC);
+	zval is_alive = call_user_function(NULL, &(obj), &method_name, NULL, 0 ,NULL TSRMLS_CC);
 	zend_bool alive = Z_BVAL_P(is_alive);
 	if(alive){
 		zend_throw_exception(simplefork_exception_entry, "the process is running already", 0 TSRMLS_CC);
