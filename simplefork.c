@@ -240,7 +240,7 @@ PHP_METHOD(Process, on)
     }
 
     zval *callbacks = zend_read_property(process_class_entry, getThis(), "callbacks", sizeof("callbacks")-1, 0 TSRMLS_DC);
-    if(callbacks == NULL){
+    if(Z_TYPE_P(callbacks) == IS_NULL){
     	MAKE_STD_ZVAL(callbacks);
     	array_init(callbacks);
     }
