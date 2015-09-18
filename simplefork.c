@@ -291,7 +291,7 @@ PHP_METHOD(Process, wait)
 		if(res != 0){
 			zval *alive = zend_read_property(process_class_entry, getThis(), "alive", sizeof("alive")-1, 0 TSRMLS_DC);
 			ZVAL_BOOL(alive, 0);
-			RETURN_TRUE;
+			break;;
 		}
 
 		if(res < 0){
