@@ -211,7 +211,8 @@ PHP_METHOD(Process, start)
 	MAKE_STD_ZVAL(method_name);
 	ZVAL_STRING(method_name, "isAlive", 1);
 	zval *obj = getThis();
-	zval *is_alive = NULL
+	zval *is_alive = NULL;
+
 	if(call_user_function(NULL, &(obj), method_name, is_alive, 0 ,NULL TSRMLS_CC) != SUCCESS){
 		zend_throw_exception("call isAlive method failed");
 	}
