@@ -241,7 +241,7 @@ PHP_METHOD(Process, on)
     	MAKE_STD_ZVAL(callbacks);
     	array_init(callbacks);
     }
-    add_accos_zval(callbacks, &event, callback);
+    add_assoc_zval(callbacks, &event, callback);
 
 	RETURN_TRUE;
 }
