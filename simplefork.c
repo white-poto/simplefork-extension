@@ -286,6 +286,7 @@ PHP_METHOD(Process, wait)
 
 	pid_t pid = Z_LVAL_P(z_pid);
 	int *status = NULL;
+	PHPWRITE(pid);
 	while(1){
 		int res = waitpid(pid, status, WNOHANG);
 		if(res < 0){
