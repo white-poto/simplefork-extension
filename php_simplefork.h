@@ -82,6 +82,7 @@ PHP_METHOD(Process, start);
 PHP_METHOD(Process, getCallback);
 PHP_METHOD(Process, setStop);
 PHP_METHOD(Process, wait);
+PHP_METHOD(Process, run);
 
 
 PHP_MINIT_FUNCTION(simplefork);
