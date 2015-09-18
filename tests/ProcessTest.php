@@ -16,6 +16,13 @@ class ProcessTest extends TestSuite
         $reflect = new ReflectionClass("SimpleFork\\Process");
         $this->assertTrue($reflect->hasMethod("__destruct"));
         $this->assertTrue($reflect->hasMethod("__construct"));
+        $this->assertTrue($reflect->hasMethod("setCache"));
+        $this->assertTrue($reflect->hasMethod("setQueue"));
+        $this->assertTrue($reflect->hasMethod("getPid"));
+        $this->assertTrue($reflect->hasMethod("isAlive"));
+        $this->assertTrue($reflect->hasMethod("exitCode"));
+        $this->assertTrue($reflect->hasMethod("on"));
+        $this->assertTrue($reflect->hasMethod("start"));
         $this->assertTrue($reflect->hasConstant("BEFORE_START"));
         $this->assertTrue($reflect->hasConstant("BEFORE_EXIT"));
     }
