@@ -54,6 +54,16 @@ class ProcessTest extends TestSuite
         $process = new SimpleFork\Process();
         $this->assertFalse($process->isAlive());
     }
+
+    public function testOn(){
+        $process = new SimpleFork\Process();
+        try{
+            $process->on(SimpleFork::BEFORE_START, 'false');
+        }catch (Exception $e){
+            $this->assertEquals($e->getMessage(), "try to register a function that it is not callable");
+        }
+        $this->assertTrue(isset($e));
+    }
 }
 
 
