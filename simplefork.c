@@ -155,6 +155,7 @@ PHP_METHOD(Process, __construct)
 
 	if(!zend_is_callable(execution, 0, &execution_name)){
 		zend_throw_exception(simplefork_exception_entry, "execution param must be callable",0 TSRMLS_CC);
+		return;
 	}
 	zend_update_property(process_class_entry, getThis(), "execution", sizeof("execution")-1, execution TSRMLS_CC);
 }
@@ -220,11 +221,13 @@ PHP_METHOD(Process, start)
 
 	if(call_user_function(NULL, &(obj), method_name, is_alive, 0 ,NULL TSRMLS_CC) != SUCCESS){
 		zend_throw_exception(simplefork_exception_entry, "call isAlive method failed", 0 TSRMLS_CC);
+		return;
 	}
 
 	zend_bool alive = Z_BVAL_P(is_alive);
 	if(alive){
 		zend_throw_exception(simplefork_exception_entry, "the process is running already", 0 TSRMLS_CC);
+		return;
 	}
 }
 
@@ -239,6 +242,7 @@ PHP_METHOD(Process, on)
 
     if(!zend_is_callable(callback, 0, NULL)){
     	zend_throw_exception(simplefork_exception_entry, "try to register a function that it is not callable", 0 TSRMLS_CC);
+    	return;
     }
 
     zval *callbacks = zend_read_property(process_class_entry, getThis(), "callbacks", sizeof("callbacks")-1, 0 TSRMLS_DC);
@@ -292,6 +296,7 @@ PHP_METHOD(Process, wait)
 		int res = waitpid(pid, status, WNOHANG);
 		if(res < 0){
         	zend_throw_exception(simplefork_exception_entry, "wait sub process failed", 0 TSRMLS_CC);
+        	return;
         }
 		if(res != 0){
 			zval *alive = zend_read_property(process_class_entry, getThis(), "alive", sizeof("alive")-1, 0 TSRMLS_DC);
