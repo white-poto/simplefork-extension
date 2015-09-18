@@ -275,7 +275,7 @@ PHP_METHOD(Process, wait)
 {
 	zend_bool *block = NULL;
 	long sleep = 100;
-	if (FAILURE == zend_parse_parameters(ZEND_NUM_ARGS(), "|bl", &block, *sleep)){
+	if (FAILURE == zend_parse_parameters(ZEND_NUM_ARGS(), "|bl", &block, sleep)){
         RETURN_FALSE;
     }
 
