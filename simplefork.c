@@ -283,7 +283,7 @@ PHP_METHOD(Process, wait)
 
 	if(z_pid == NULL || Z_TYPE_P(z_pid) == IS_NULL || 1){
 		zend_throw_exception(simplefork_exception_entry, "Process is not running because it has no pid", 0 TSRMLS_CC);
-		php_printf("get");
+		return;
 	}
 
 	pid_t pid = Z_LVAL_P(z_pid);
