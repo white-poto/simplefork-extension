@@ -133,8 +133,8 @@ static zend_function_entry process_class_methods[]={
 	PHP_ME(Process, on, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Process, start, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Process, getCallback, NULL, ZEND_ACC_PROTECTED)
-	PHP_ME(Process, run, NULL, ZEND_ACC_PROTECTED)
-	PHP_ME(Process, wait, NULL, ZEND_ACC_PROTECTED)
+	PHP_ME(Process, run, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Process, wait, NULL, ZEND_ACC_PUBLIC)
 	{NULL,NULL,NULL}
 };
 
