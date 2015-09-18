@@ -87,6 +87,7 @@ class ProcessTest extends TestSuite
             $process->wait();
         }catch (Exception $e){
             $this->assertEquals($e->getMessage(), "Process is not running because it has no pid");
+            echo "test";
         }
 
     }
