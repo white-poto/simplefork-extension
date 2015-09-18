@@ -257,7 +257,7 @@ PHP_METHOD(Process, getCallback)
 	zval *runnable = zend_read_property(process_class_entry, getThis(), "runnable", sizeof("runnable")-1, 0 TSRMLS_DC);
 	zval *execution = zend_read_property(process_class_entry, getThis(), "execution", sizeof("execution")-1, 0 TSRMLS_DC);
 
-	if(Z_TYPE_P(runable) == IS_OBJECT){
+	if(Z_TYPE_P(runnable) == IS_OBJECT){
 		RETURN_STRING("runnable", 1);
 	}else if(Z_TYPE_P(execution) != IS_NULL){
 		RETURN_STRING("execution", 1);
