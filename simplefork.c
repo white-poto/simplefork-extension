@@ -243,7 +243,7 @@ PHP_METHOD(Process, on)
     }
     add_accos_zval(callbacks, &event, callback);
 
-	RETURN TRUE;
+	RETURN_TRUE;
 }
 
 
