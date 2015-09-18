@@ -240,13 +240,12 @@ PHP_METHOD(Process, on)
     	zend_throw_exception(simplefork_exception_entry, "try to register a function that it is not callable", 0 TSRMLS_CC);
     }
 
-    HashTable *callbacks = zend_read_property(process_class_entry, getThis(), "callbacks", sizeof("callbacks")-1, 0 TSRMLS_DC);
+    zval *callbacks = zend_read_property(process_class_entry, getThis(), "callbacks", sizeof("callbacks")-1, 0 TSRMLS_DC);
     if(callbacks == NULL){
-    	ALLOC_HASHTABLE(callbacks);
+    	MAKE_STD_ZVAL(callbacks);
+    	array_init(callbacks);
     }
-	if(zend_hash_update(callbacks, &event, event_len, callback, sizeof(callback*), NULL) == FAILURE){
-		zend_throw_exception(simplefork_exception_entry, "register callback function failed");
-	}
+    add_accos_zval(callbacks, &event, callback);
 
 	RETURN TRUE;
 }
