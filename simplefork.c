@@ -231,9 +231,8 @@ PHP_METHOD(Process, on)
 	if (FAILURE == zend_parse_parameters(ZEND_NUM_ARGS(), "sz", &event, &event_len, &callback)){
     	RETURN_FALSE;
     }
-    zend_string *function_name = NULL;
-    if(!zend_is_callable(callback, 0, &function_name)){
-    	zend_string_release(function_name);
+
+    if(!zend_is_callable(callback, 0, NULL)){
     	zend_throw_exception(simplefork_exception_entry, "try to register a function that it is not callable", 0 TSRMLS_CC);
     }
 
