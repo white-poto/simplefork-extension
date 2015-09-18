@@ -38,6 +38,11 @@ class ProcessTest extends TestSuite
         }
         $this->assertTrue(!isset($e_2));
     }
+
+    public function testIsAlive(){
+        $process = new SimpleFork\Process();
+        $this->assertFalse($process->isAlive());
+    }
 }
 
 
