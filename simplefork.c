@@ -151,9 +151,6 @@ PHP_METHOD(Process, __construct)
 		zend_throw_exception(simplefork_exception_entry, "execution param must be callable",0 TSRMLS_CC);
 	}
 	zend_update_property(process_class_entry, getThis(), "execution", sizeof("execution")-1, execution TSRMLS_CC);
-
-	HashTable *callbacks = NULL;
-	zend_update_property(process_class_entry, getThis(), "callbacks", sizeof("callbacks")-1, callbacks TSRMLS_CC);
 }
 /* }}} */
 
