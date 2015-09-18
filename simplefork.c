@@ -143,11 +143,11 @@ PHP_METHOD(Process, __construct)
 {
 	zval *execution = NULL;
 	char *execution_name = NULL;
-	if (FAILURE == zend_parse_parameters(ZEND_NUM_ARGS(), "|z", &execution)){
+	if (FAILURE == zend_parse_parameters(ZEND_NUM_ARGS(), "|z!", &execution)){
 		RETURN_FALSE;
 	}
-	if (Z_TYPE_P(execution) == IS_NULL) {
-        RETURN_NULL();
+	if (execution == NULL) {
+        return;
     }
 
 	if(!zend_is_callable(execution, 0, &execution_name)){
