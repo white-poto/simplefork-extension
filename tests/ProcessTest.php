@@ -80,6 +80,16 @@ class ProcessTest extends TestSuite
         }
         $this->assertTrue(!isset($e));
     }
+
+    public function testWait(){
+        $process = new SimpleFork\Process();
+        try{
+            $process->wait();
+        }catch (Exception $e){
+            $this->assertEquals($e->getMessage(), "Process is not running because it has no pid");
+        }
+
+    }
 }
 
 
