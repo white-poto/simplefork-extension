@@ -65,8 +65,8 @@ ZEND_END_ARG_INFO()
 static zend_function_entry cache_interface_methods[]={
     ZEND_ABSTRACT_ME(cache_interface_entry, get, cache_key) 
     ZEND_ABSTRACT_ME(cache_interface_entry, delete, cache_key)
-    ZEND_ABSTRACT_ME(cache_interface_entry, set, cache_set) 
-    ZEND_ABSTRACT_ME(cache_interface_entry, flush, NULL) 
+    ZEND_ABSTRACT_ME(cache_interface_entry, set, cache_set)
+    ZEND_ABSTRACT_ME(cache_interface_entry, has, cache_key)
     {NULL,NULL,NULL}
 };
 
@@ -84,8 +84,6 @@ ZEND_END_ARG_INFO()
 static zend_function_entry queue_interface_methods[]={
 	ZEND_ABSTRACT_ME(queue_interface_entry, put, queue_put)
 	ZEND_ABSTRACT_ME(queue_interface_entry, get, queue_key)
-	ZEND_ABSTRACT_ME(queue_interface_entry, size, queue_key)
-	ZEND_ABSTRACT_ME(queue_interface_entry, remove, NULL)
 	{NULL, NULL, NULL}
 };
 
@@ -113,28 +111,48 @@ zend_class_entry *process_class_entry = NULL;
 //
 
 ZEND_BEGIN_ARG_INFO(process_construct_args, 0)
-	ZEND_ARG_INFO(0, execution)
+	ZEND_ARG_INFO(0, runnable)
+	ZEND_ARG_INFO(0, name)
 ZEND_END_ARG_INFO()
-ZEND_BEGIN_ARG_INFO(process_set_cache_args, 0)
-	ZEND_ARG_OBJ_INFO(1, cache, CacheInterface, 0)
+ZEND_BEGIN_ARG_INFO(process_name_args, 0)
+	ZEND_ARG_INFO(0, name)
 ZEND_END_ARG_INFO()
-ZEND_BEGIN_ARG_INFO(process_set_queue_args, 0)
-	ZEND_ARG_OBJ_INFO(1, queue, QueueInterface, 0)
+ZEND_BEGIN_ARG_INFO(process_shutdown_args, 0)
+	ZEND_ARG_INFO(0, block)
+	ZEND_ARG_INFO(0, signal)
+ZEND_END_ARG_INFO()
+ZEND_BEGIN_ARG_INFO(process_wait_args, 0)
+	ZEND_ARG_INFO(0, block)
+	ZEND_ARG_INFO(0, signal)
+ZEND_END_ARG_INFO()
+ZEND_BEGIN_ARG_INFO(process_register_signal_handler_args, 0)
+	ZEND_ARG_INFO(0, block)
+	ZEND_ARG_INFO(0, signal)
+ZEND_END_ARG_INFO()
+ZEND_BEGIN_ARG_INFO(process_update_status_args, 0)
+	ZEND_ARG_INFO(0, block)
 ZEND_END_ARG_INFO()
 
 static zend_function_entry process_class_methods[]={
 	PHP_ME(Process, __construct, process_construct_args, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Process, __destruct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_DTOR)
-	PHP_ME(Process, setCache, process_set_cache_args, ZEND_ACC_PUBLIC)
-	PHP_ME(Process, setQueue, process_set_queue_args, ZEND_ACC_PUBLIC)
 	PHP_ME(Process, getPid, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Process, isAlive, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Process, exitCode, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Process, on, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Process, name, process_name_args, ZEND_ACC_PUBLIC)
+	PHP_ME(Process, isRunning, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Process, isStopped, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Process, isStarted, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Process, errno, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Process, errmsg, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Process, ifSignal, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Process, start, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Process, getCallback, NULL, ZEND_ACC_PROTECTED)
+	PHP_ME(Process, shutdown, process_shutdown_args, ZEND_ACC_PUBLIC)
+	PHP_ME(Process, wait, process_wait_args, ZEND_ACC_PUBLIC)
+	PHP_ME(Process, registerSignalHandler, process_register_signal_handler_args, ZEND_ACC_PUBLIC)
 	PHP_ME(Process, run, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Process, wait, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Process, updateStatus, process_update_status_args, ZEND_ACC_PUBLIC)
+	PHP_ME(Process, signal, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Process, getCallable, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Process, initStatus, NULL, ZEND_ACC_PUBLIC)
 	{NULL,NULL,NULL}
 };
 
@@ -144,8 +162,8 @@ static zend_function_entry process_class_methods[]={
 */
 PHP_METHOD(Process, __construct)
 {
-	zval *execution = NULL;
-	char *execution_name = NULL;
+	zval *runnable = NULL;
+	char *process_name = NULL;
 	if (FAILURE == zend_parse_parameters(ZEND_NUM_ARGS(), "|z!", &execution)){
 		RETURN_FALSE;
 	}
@@ -157,7 +175,13 @@ PHP_METHOD(Process, __construct)
 		zend_throw_exception(simplefork_exception_entry, "execution param must be callable",0 TSRMLS_CC);
 		return;
 	}
-	zend_update_property(process_class_entry, getThis(), "execution", sizeof("execution")-1, execution TSRMLS_CC);
+	zend_update_property(process_class_entry, getThis(), "runnable", sizeof("runnable")-1, execution TSRMLS_CC);
+	zend_update_property(process_class_entry, getThis(), "pid", sizeof("pid")-1, NULL TSRMLS_CC);
+	zend_update_property(process_class_entry, getThis(), "running", sizeof("running")-1, NULL TSRMLS_CC);
+	zend_update_property(process_class_entry, getThis(), "term_signal", sizeof("term_signal")-1, NULL TSRMLS_CC);
+	zend_update_property(process_class_entry, getThis(), "stop_signal", sizeof("stop_signal")-1, NULL TSRMLS_CC);
+	zend_update_property(process_class_entry, getThis(), "errno", sizeof("errno")-1, NULL TSRMLS_CC);
+	zend_update_property(process_class_entry, getThis(), "errmsg", sizeof("errmsg")-1, NULL TSRMLS_CC);
 }
 /* }}} */
 
@@ -169,46 +193,24 @@ PHP_METHOD(Process, __destruct)
 }
 /* }}} */
 
-
-PHP_METHOD(Process, setCache)
-{
-	zval *cache = NULL;
-	if (FAILURE == zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &cache)){
-    	RETURN_FALSE;
-    }
-	zend_update_property(process_class_entry, getThis(), "cache", sizeof("cache")-1, cache TSRMLS_CC);
-}
-
-PHP_METHOD(Process, setQueue)
-{
-	zval *queue = NULL;
-	if(FAILURE == zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &queue)){
-		RETURN_FALSE;
-	}
-	zend_update_property(process_class_entry, getThis(), "queue", sizeof("queue")-1, queue TSRMLS_CC);
-}
-
 PHP_METHOD(Process, getPid)
 {
 	zval *pid = zend_read_property(process_class_entry, getThis(), "pid", sizeof("pid")-1, 0 TSRMLS_DC);
 	RETURN_LONG(Z_LVAL_P(pid));
 }
 
-PHP_METHOD(Process, isAlive)
+PHP_METHOD(Process, name)
 {
-	zval *is_alive = zend_read_property(process_class_entry, getThis(), "alive", sizeof("alive")-1, 0 TSRMLS_DC);
-	zend_bool alive = Z_BVAL_P(is_alive);
-	if(alive){
-		RETURN_TRUE;
-	}else{
-		RETURN_FALSE;
-	}
-}
+    char *name;
+    int name_len;
 
-PHP_METHOD(Process, exitCode)
-{
-	zval *status = zend_read_property(process_class_entry, getThis(), "status", sizeof("alive")-1, 0 TSRMLS_DC);
-	RETURN_LONG(Z_LVAL_P(status));
+    if (FAILURE == zend_parse_parameters(ZEND_NUM_ARGS(), "|s", &name, &name_len)){
+        RETURN_FALSE;
+    }
+    if(name == NULL)
+    {
+        RETURN_STRING(name, name_len)
+    }
 }
 
 PHP_METHOD(Process, start)
@@ -228,45 +230,6 @@ PHP_METHOD(Process, start)
 	if(alive){
 		zend_throw_exception(simplefork_exception_entry, "the process is running already", 0 TSRMLS_CC);
 		return;
-	}
-}
-
-PHP_METHOD(Process, on)
-{
-	char *event = NULL;
-	int event_len = 0;
-	zval *callback = NULL;
-	if (FAILURE == zend_parse_parameters(ZEND_NUM_ARGS(), "sz", &event, &event_len, &callback)){
-    	RETURN_FALSE;
-    }
-
-    if(!zend_is_callable(callback, 0, NULL)){
-    	zend_throw_exception(simplefork_exception_entry, "try to register a function that it is not callable", 0 TSRMLS_CC);
-    	return;
-    }
-
-    zval *callbacks = zend_read_property(process_class_entry, getThis(), "callbacks", sizeof("callbacks")-1, 0 TSRMLS_DC);
-    if(Z_TYPE_P(callbacks) == IS_NULL){
-    	MAKE_STD_ZVAL(callbacks);
-    	array_init(callbacks);
-    }
-    add_assoc_zval(callbacks, event, callback);
-
-	RETURN_TRUE;
-}
-
-PHP_METHOD(Process, getCallback)
-{
-	zval *callback = NULL;
-	zval *runnable = zend_read_property(process_class_entry, getThis(), "runnable", sizeof("runnable")-1, 0 TSRMLS_DC);
-	zval *execution = zend_read_property(process_class_entry, getThis(), "execution", sizeof("execution")-1, 0 TSRMLS_DC);
-
-	if(Z_TYPE_P(runnable) == IS_OBJECT){
-		RETURN_STRING("runnable", 1);
-	}else if(Z_TYPE_P(execution) != IS_NULL){
-		RETURN_STRING("execution", 1);
-	}else{
-		RETURN_STRING("run", 1);
 	}
 }
 
@@ -393,14 +356,17 @@ PHP_MINIT_FUNCTION(simplefork)
     zend_class_entry process_class;
     INIT_NS_CLASS_ENTRY(process_class, "SimpleFork", "Process", process_class_methods);
     process_class_entry = zend_register_internal_class(&process_class TSRMLS_CC);
-    zend_declare_property_null(process_class_entry, "queue", strlen("queue"), ZEND_ACC_PROTECTED TSRMLS_CC);
-    zend_declare_property_null(process_class_entry, "cache", strlen("cache"), ZEND_ACC_PROTECTED TSRMLS_CC);
     zend_declare_property_null(process_class_entry, "runnable", strlen("runnable"), ZEND_ACC_PROTECTED TSRMLS_CC);
-    zend_declare_property_null(process_class_entry, "execution", strlen("execution"), ZEND_ACC_PROTECTED TSRMLS_CC);
     zend_declare_property_null(process_class_entry, "pid", strlen("pid"), ZEND_ACC_PROTECTED TSRMLS_CC);
-    zend_declare_property_null(process_class_entry, "alive", strlen("alive"), ZEND_ACC_PROTECTED TSRMLS_CC);
-    zend_declare_property_null(process_class_entry, "status", strlen("status"), ZEND_ACC_PROTECTED TSRMLS_CC);
-    zend_declare_property_null(process_class_entry, "callbacks", strlen("callbacks"), ZEND_ACC_PROTECTED TSRMLS_CC);
+    zend_declare_property_null(process_class_entry, "name", strlen("name"), ZEND_ACC_PROTECTED TSRMLS_CC);
+    zend_declare_property_null(process_class_entry, "started", strlen("started"), ZEND_ACC_PROTECTED TSRMLS_CC);
+    zend_declare_property_null(process_class_entry, "running", strlen("running"), ZEND_ACC_PROTECTED TSRMLS_CC);
+    zend_declare_property_null(process_class_entry, "term_signal", strlen("term_signal"), ZEND_ACC_PROTECTED TSRMLS_CC);
+    zend_declare_property_null(process_class_entry, "stop_signal", strlen("stop_signal"), ZEND_ACC_PROTECTED TSRMLS_CC);
+    zend_declare_property_null(process_class_entry, "errno", strlen("errno"), ZEND_ACC_PROTECTED TSRMLS_CC);
+    zend_declare_property_null(process_class_entry, "errmsg", strlen("errmsg"), ZEND_ACC_PROTECTED TSRMLS_CC);
+    zend_declare_property_null(process_class_entry, "if_signal", strlen("if_signal"), ZEND_ACC_PROTECTED TSRMLS_CC);
+    zend_declare_property_null(process_class_entry, "signal_handlers", strlen("signal_handlers"), ZEND_ACC_PROTECTED TSRMLS_CC);
     zend_declare_class_constant_stringl(process_class_entry, ZEND_STRL("BEFORE_START"), ZEND_STRL("beforeStart") TSRMLS_CC);
     zend_declare_class_constant_stringl(process_class_entry, ZEND_STRL("BEFORE_EXIT"), ZEND_STRL("BEFORE_EXIT") TSRMLS_CC);
 
