@@ -71,18 +71,7 @@ ZEND_END_MODULE_GLOBALS(simplefork)
 
 PHP_METHOD(Process, __construct);
 PHP_METHOD(Process, __destruct);
-PHP_METHOD(Process, setCache);
-PHP_METHOD(Process, setCache);
-PHP_METHOD(Process, setQueue);
-PHP_METHOD(Process, getPid);
-PHP_METHOD(Process, isAlive);
-PHP_METHOD(Process, exitCode);
-PHP_METHOD(Process, on);
-PHP_METHOD(Process, start);
-PHP_METHOD(Process, getCallback);
-PHP_METHOD(Process, setStop);
-PHP_METHOD(Process, wait);
-PHP_METHOD(Process, run);
+
 
 
 PHP_MINIT_FUNCTION(simplefork);
