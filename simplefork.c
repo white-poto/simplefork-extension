@@ -165,9 +165,8 @@ PHP_METHOD(Process, __construct)
 {
 	zval *runnable = NULL;
 	zend_string *runnable_name;
-	char *process_name = NULL;
-	int process_name_len;
-	if (FAILURE == zend_parse_parameters(ZEND_NUM_ARGS(), "|z!", &runnable, &process_name, &process_name_len)){
+	zval *process_name = NULL;
+	if (FAILURE == zend_parse_parameters(ZEND_NUM_ARGS(), "|z!z!", &runnable, &process_name)){
 		RETURN_FALSE;
 	}
 	if (runnable == NULL) {
