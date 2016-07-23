@@ -137,7 +137,7 @@ static zend_function_entry process_class_methods[]={
 	PHP_ME(Process, __construct, process_construct_args, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Process, __destruct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_DTOR)
 	PHP_ME(Process, getPid, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Process, name, process_name_args, ZEND_ACC_PUBLIC)
+/*	PHP_ME(Process, name, process_name_args, ZEND_ACC_PUBLIC)
 	PHP_ME(Process, isRunning, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Process, isStopped, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Process, isStarted, NULL, ZEND_ACC_PUBLIC)
@@ -153,6 +153,7 @@ static zend_function_entry process_class_methods[]={
 	PHP_ME(Process, signal, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Process, getCallable, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Process, initStatus, NULL, ZEND_ACC_PUBLIC)
+	*/
 	{NULL,NULL,NULL}
 };
 
