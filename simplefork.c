@@ -163,19 +163,22 @@ static zend_function_entry process_class_methods[]={
 PHP_METHOD(Process, __construct)
 {
 	zval *runnable = NULL;
+	zend_string *runnable_name;
 	char *process_name = NULL;
-	if (FAILURE == zend_parse_parameters(ZEND_NUM_ARGS(), "|z!", &execution)){
+	int process_name_len;
+	if (FAILURE == zend_parse_parameters(ZEND_NUM_ARGS(), "|z!", &runnable, &process_name, &process_name_len)){
 		RETURN_FALSE;
 	}
-	if (execution == NULL) {
+	if (runnable == NULL) {
         return;
     }
 
-	if(!zend_is_callable(execution, 0, &execution_name)){
+	if(!zend_is_callable(runnable, 0, &runnable_name)){
 		zend_throw_exception(simplefork_exception_entry, "execution param must be callable",0 TSRMLS_CC);
 		return;
 	}
-	zend_update_property(process_class_entry, getThis(), "runnable", sizeof("runnable")-1, execution TSRMLS_CC);
+	zend_update_property(process_class_entry, getThis(), "runnable", sizeof("runnable")-1, runnable TSRMLS_CC);
+	zend_update_property(process_class_entry, getThis(), "process_name", sizeof("process_name")-1, process_name TSRMLS_CC);
 	zend_update_property(process_class_entry, getThis(), "pid", sizeof("pid")-1, NULL TSRMLS_CC);
 	zend_update_property(process_class_entry, getThis(), "running", sizeof("running")-1, NULL TSRMLS_CC);
 	zend_update_property(process_class_entry, getThis(), "term_signal", sizeof("term_signal")-1, NULL TSRMLS_CC);
