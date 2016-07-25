@@ -30,6 +30,7 @@
 #include <zend.h>
 #include <zend_API.h>
 #include <zend_string.h>
+#include <zend_exceptions.h>
 
 #include<sys/types.h>
 #include<sys/stat.h>
