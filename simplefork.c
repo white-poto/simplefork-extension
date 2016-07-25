@@ -200,7 +200,7 @@ PHP_METHOD(Process, name)
 {
     char *name;
     int name_len;
-    if (FAILURE == zend_parse_parameters(ZEND_NUM_ARGS(), "|z!", &name, &name_len)){
+    if (FAILURE == zend_parse_parameters(ZEND_NUM_ARGS(), "|s!", &name, &name_len)){
         RETURN_FALSE;
     }
 
