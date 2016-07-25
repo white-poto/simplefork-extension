@@ -32,7 +32,6 @@ class InterfaceTest extends TestSuite
         $this->assertTrue($reflect->hasMethod('set'));
         $this->assertTrue($reflect->hasMethod('has'));
         $this->assertTrue($reflect->hasMethod('delete'));
-        $this->assertTrue($reflect->hasMethod('flush'));
     }
 
     public function testQueue()
@@ -41,8 +40,6 @@ class InterfaceTest extends TestSuite
         $reflect = new ReflectionObject($queue);
         $this->assertTrue($reflect->hasMethod('put'));
         $this->assertTrue($reflect->hasMethod('get'));
-        $this->assertTrue($reflect->hasMethod('size'));
-        $this->assertTrue($reflect->hasMethod('remove'));
     }
 
     public function testLock(){
