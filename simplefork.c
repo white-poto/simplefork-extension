@@ -204,6 +204,7 @@ PHP_METHOD(Process, name)
         RETURN_FALSE;
     }
 
+    print name;
     if(!name)
     {
         zval *process_name = zend_read_property(process_class_entry, getThis(), "name", sizeof("name")-1, 0 TSRMLS_DC);
