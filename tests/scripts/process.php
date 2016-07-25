@@ -6,4 +6,4 @@
  * Time: 11:48
  */
 
-$process = new SimpleFork\Process("not a callable");
+$process = new SimpleFork\Process(null, "process_name");
