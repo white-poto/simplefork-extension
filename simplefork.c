@@ -303,13 +303,15 @@ PHP_METHOD(Process, isRunning)
     MAKE_STD_ZVAL(block);
     ZVAL_LONG(block, 0);
     zval *params = {&block};
+    zend_uint param_count = 1;
+    zval *retval_ptr;
 
     zval method_name;
     INIT_ZVAL(method_name);
     ZVAL_STRING(&method_name, "updateStatus", 1);
     if (call_user_function(
         CG(function_table), getThis(), &method_name,
-        retval_ptr, 1, params TSRMLS_CC
+        retval_ptr, param_count, params TSRMLS_CC
     ) == FAILURE
     ) {
         zend_throw_exception(simplefork_exception_entry, "call updateStatus failed", 0 TSRMLS_CC);
