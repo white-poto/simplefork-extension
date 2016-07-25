@@ -250,16 +250,16 @@ PHP_METHOD(Process, updateStatus)
         ZVAL_BOOL(running, 1);
         zend_update_property(process_class_entry, getThis(), "running", sizeof("running")-1, 0 TSRMLS_CC);
     }else {
-        int errno = 0;
+        int error_no = 0;
         char *errmsg = NULL;
         int term_signal = 0;
         int if_signal = 0;
         int stop_signal = 0;
-        errno = WEXITSTATUS(stat_loc);
-                    errmsg = strerror(errno);
+        error_no = WEXITSTATUS(stat_loc);
+                    errmsg = strerror(error_no);
         if(WIFEXITED(stat_loc)) {
-            errno = WEXITSTATUS(stat_loc);
-            errmsg = strerror(errno);
+            error_no = WEXITSTATUS(stat_loc);
+            errmsg = strerror(error_no);
         }else if (WIFSIGNALED(stat_loc)) {
             term_signal = WTERMSIG(stat_loc);
             if_signal = 1;
@@ -269,7 +269,7 @@ PHP_METHOD(Process, updateStatus)
 
         zval *property_errno;
         MAKE_STD_ZVAL(property_errno);
-        ZVAL_LONG(property_errno, errno);
+        ZVAL_LONG(property_errno, error_no);
         zend_update_property(process_class_entry, getThis(), "errno", sizeof("errno")-1, property_errno TSRMLS_CC);
 
         zval *property_errmsg;
