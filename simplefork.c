@@ -304,15 +304,20 @@ PHP_METHOD(Process, isRunning)
     ZVAL_LONG(block, 0);
     zval *param = {&block};
 
-    zval function_name;
-    INIT_ZVAL(function_name)
+    zval method_name;
+    INIT_ZVAL(method_name);
+    ZVAL_STRING(&method_name, "updateStatus", 1);
     if (call_user_function(
-        CG(function_table), getThis(), &function_name,
-        retval_ptr, param_count, params TSRMLS_CC
-    ) == SUCCESS
+        CG(function_table), getThis(), &method_name,
+        retval_ptr, 1, params TSRMLS_CC
+    ) == FAILURE
     ) {
-    /* do something with retval_ptr here if you like */
+        zend_throw_exception(simplefork_exception_entry, "call updateStatus failed", 0 TSRMLS_CC);
+        return;
     }
+
+    zval *running = zend_read_property(process_class_entry, getThis(), "running", sizeof("running")-1, 0 TSRMLS_DC);
+    RETURN_ZVAL(running, 1, 0);
 }
 
 PHP_METHOD(Process, start)
