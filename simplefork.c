@@ -231,7 +231,7 @@ PHP_METHOD(Process, updateStatus)
     }
 
     zval *property_pid = zend_read_property(process_class_entry, getThis(), "pid", sizeof("pid")-1, 0 TSRMLS_DC);
-    int pid = Z_LVAL_P(pid);
+    int pid = Z_LVAL_P(property_pid);
     int *stat_loc = NULL;
     int wait_stat = 0;
     if (block) {
