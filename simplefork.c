@@ -199,7 +199,7 @@ PHP_METHOD(Process, getPid)
 PHP_METHOD(Process, name)
 {
     zval *name;
-    if (FAILURE == zend_parse_parameters(ZEND_NUM_ARGS(), "|z!", &name)){
+    if (FAILURE == zend_parse_parameters(ZEND_NUM_ARGS(), "z!", &name)){
         RETURN_FALSE;
     }
 
