@@ -209,7 +209,7 @@ PHP_METHOD(Process, name)
     }
     if(name == NULL)
     {
-        RETURN_STRING(Z_STRVAL_P(name))
+
     }
     zend_update_property(process_class_entry, getThis(), "name", sizeof("name")-1, name TSRMLS_CC);
 }
