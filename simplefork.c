@@ -170,7 +170,7 @@ PHP_METHOD(Process, __construct)
 		RETURN_FALSE;
 	}
 	if (zend_is_callable(runnable, 0, NULL) || 1) {
-        zend_throw_exception(simplefork_exception_entry, "execution param must be callable", 0 TSRMLS_CC);
+	zend_throw_exception(zend_exception_get_default(TSRMLS_C), "Already initialised DB Object", 0 TSRMLS_CC);
         return;
     }
 
