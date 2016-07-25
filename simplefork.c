@@ -204,7 +204,8 @@ PHP_METHOD(Process, name)
     }
     if(name == NULL)
     {
-        RETURN_STRING(ZVAL_STRING_P(name), sizeof(ZVAL_STRING_P(name))-1);
+        zval *process_name = zend_read_property(process_class_entry, getThis(), "name", sizeof("name")-1, 0 TSRMLS_DC);
+        RETURN_STRING(ZVAL_STRING_P(process_name), sizeof(ZVAL_STRING_P(process_name))-1);
     }
 }
 
