@@ -256,11 +256,14 @@ PHP_METHOD(Process, updateStatus)
         int if_signal = 0;
         int stop_signal = 0;
         error_no = WEXITSTATUS(stat_loc);
-                    errmsg = strerror(error_no);
+        errmsg = strerror(error_no);
+        /*
         if(WIFEXITED(stat_loc)) {
             error_no = WEXITSTATUS(stat_loc);
             errmsg = strerror(error_no);
-        }else if (WIFSIGNALED(stat_loc)) {
+        }else
+        */
+        if (WIFSIGNALED(stat_loc)) {
             term_signal = WTERMSIG(stat_loc);
             if_signal = 1;
         }else if (WIFSTOPPED(stat_loc)) {
@@ -291,6 +294,24 @@ PHP_METHOD(Process, updateStatus)
         MAKE_STD_ZVAL(property_stop_signal);
         ZVAL_LONG(property_stop_signal, stop_signal);
         zend_update_property(process_class_entry, getThis(), "stop_signal", sizeof("stop_signal")-1, property_stop_signal TSRMLS_CC);
+    }
+}
+
+PHP_METHOD(Process, isRunning)
+{
+    zval *block;
+    MAKE_STD_ZVAL(block);
+    ZVAL_LONG(block, 0);
+    zval *param = {&block};
+
+    zval function_name;
+    INIT_ZVAL(function_name)
+    if (call_user_function(
+        CG(function_table), getThis(), &function_name,
+        retval_ptr, param_count, params TSRMLS_CC
+    ) == SUCCESS
+    ) {
+    /* do something with retval_ptr here if you like */
     }
 }
 
