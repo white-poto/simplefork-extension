@@ -255,7 +255,7 @@ PHP_METHOD(Process, updateStatus)
         int term_signal = 0;
         int if_signal = 0;
         int stop_signal = 0;
-        if(WIFEXITED(status)) {
+        if(WIFEXITED(stat_loc)) {
             errno = WEXITSTATUS(stat_loc);
         }else if (WIFSIGNALED(stat_loc)) {
             term_signal = WTERMSIG(stat_loc);
