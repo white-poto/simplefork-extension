@@ -11,4 +11,5 @@ var_dump($process);
 var_dump($process->name());
 $process->name("test");
 var_dump($process->name());
-$process->updateStatus();
+var_dump($process->updateStatus());
+var_dump($process->isRunning());
