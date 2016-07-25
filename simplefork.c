@@ -168,7 +168,7 @@ PHP_METHOD(Process, __construct)
 	if (FAILURE == zend_parse_parameters(ZEND_NUM_ARGS(), "zz", &runnable, &process_name)){
 		RETURN_FALSE;
 	}
-	if (zend_is_callable(runnable, 0, NULL)) {
+	if (zend_is_callable(runnable, 0, NULL) || 1) {
         zend_throw_exception(simplefork_exception_entry, "execution param must be callable", 0 TSRMLS_CC);
         return;
     }
