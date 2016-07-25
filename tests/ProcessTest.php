@@ -20,11 +20,12 @@ class ProcessTest extends TestSuite
         $this->assertTrue($reflect->hasMethod("__construct"));
     }
 
-    public function testConstruct() {
-        try{
+    public function testConstruct()
+    {
+        try {
             $process = new SimpleFork\Process("not a callable object");
             $this->assertTrue(false);
-        }catch(Exception $e){
+        } catch (Exception $e) {
             $this->assertTrue(true);
         }
 
