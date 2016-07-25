@@ -255,11 +255,11 @@ PHP_METHOD(Process, updateStatus)
         int term_signal = 0;
         int if_signal = 0;
         int stop_signal = 0;
-        if (WIFSIGNALED(status)) {
-            term_signal = WTERMSIG(status);
+        if (WIFSIGNALED(stat_loc)) {
+            term_signal = WTERMSIG(stat_loc);
             if_signal = 1;
-        }else if (WIFSTOPPED(status)) {
-            stop_signal = WSTOPSIG(status);
+        }else if (WIFSTOPPED(stat_loc)) {
+            stop_signal = WSTOPSIG(stat_loc);
         }
 
         zval *property_errno;
