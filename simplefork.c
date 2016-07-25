@@ -251,12 +251,15 @@ PHP_METHOD(Process, updateStatus)
         zend_update_property(process_class_entry, getThis(), "running", sizeof("running")-1, 0 TSRMLS_CC);
     }else {
         int errno = 0;
-        char *errmsg = strerror(errno);
+        char *errmsg = NULL;
         int term_signal = 0;
         int if_signal = 0;
         int stop_signal = 0;
+        errno = WEXITSTATUS(stat_loc);
+                    errmsg = strerror(errno);
         if(WIFEXITED(stat_loc)) {
             errno = WEXITSTATUS(stat_loc);
+            errmsg = strerror(errno);
         }else if (WIFSIGNALED(stat_loc)) {
             term_signal = WTERMSIG(stat_loc);
             if_signal = 1;
