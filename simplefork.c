@@ -172,6 +172,7 @@ PHP_METHOD(Process, __construct)
         zend_throw_exception(simplefork_exception_entry, "execution param must be callable", 0 TSRMLS_CC);
     }
 
+	zend_update_property(process_class_entry, getThis(), "runnable", sizeof("runnable")-1, runnable TSRMLS_CC);
 }
 /* }}} */
 
