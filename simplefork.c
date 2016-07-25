@@ -199,13 +199,14 @@ PHP_METHOD(Process, getPid)
 PHP_METHOD(Process, name)
 {
     zval *name;
-    if (FAILURE == zend_parse_parameters(ZEND_NUM_ARGS(), "|z", &name)){
+    if (FAILURE == zend_parse_parameters(ZEND_NUM_ARGS(), "|z!", &name)){
         RETURN_FALSE;
     }
     if(name == NULL)
     {
         zval *process_name = zend_read_property(process_class_entry, getThis(), "name", sizeof("name")-1, 0 TSRMLS_DC);
         RETURN_STRING(ZVAL_STRING_P(process_name), sizeof(ZVAL_STRING_P(process_name))-1);
+    }else{
     }
 }
 
