@@ -169,13 +169,16 @@ PHP_METHOD(Process, __construct)
 	if (FAILURE == zend_parse_parameters(ZEND_NUM_ARGS(), "|z!z!", &runnable, &process_name)){
 		RETURN_FALSE;
 	}
-	if (runnable != IS_NULL && !zend_is_callable(runnable, 0, NULL)) {
+	if (runnable != NULL && !zend_is_callable(runnable, 0, NULL)) {
         zend_throw_exception(simplefork_exception_entry, "execution param must be callable", 0 TSRMLS_CC);
         return;
+    }else{
+        zend_update_property(process_class_entry, getThis(), "runnable", sizeof("runnable")-1, runnable TSRMLS_CC);
     }
 
-	zend_update_property(process_class_entry, getThis(), "runnable", sizeof("runnable")-1, runnable TSRMLS_CC);
-	zend_update_property(process_class_entry, getThis(), "name", sizeof("name")-1, process_name TSRMLS_CC);
+    if(process_name != NULL)
+	    zend_update_property(process_class_entry, getThis(), "name", sizeof("name")-1, process_name TSRMLS_CC);
+
 }
 /* }}} */
 
