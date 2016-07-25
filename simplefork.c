@@ -164,13 +164,12 @@ static zend_function_entry process_class_methods[]={
 */
 PHP_METHOD(Process, __construct)
 {
-    zend_throw_exception(simplefork_exception_entry, "execution param must be callable", 0 TSRMLS_CC);
 	zval *runnable;
 	zval *process_name;
 	if (FAILURE == zend_parse_parameters(ZEND_NUM_ARGS(), "zz", &runnable, &process_name)){
 		RETURN_FALSE;
 	}
-	if (zend_is_callable(runnable, 0, NULL) || 1) {
+	if (Z_TYPE_P(runnable) != IS_NULL && !zend_is_callable(runnable, 0, NULL)) {
         zend_throw_exception(simplefork_exception_entry, "execution param must be callable", 0 TSRMLS_CC);
         return;
     }
