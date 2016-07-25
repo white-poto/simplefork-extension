@@ -166,10 +166,10 @@ PHP_METHOD(Process, __construct)
 {
 	zval *runnable;
 	zval *process_name;
-	if (FAILURE == zend_parse_parameters(ZEND_NUM_ARGS(), "zz", &runnable, &process_name)){
+	if (FAILURE == zend_parse_parameters(ZEND_NUM_ARGS(), "|z!z!", &runnable, &process_name)){
 		RETURN_FALSE;
 	}
-	if (Z_TYPE_P(runnable) != IS_NULL && !zend_is_callable(runnable, 0, NULL)) {
+	if (runnable != IS_NULL && !zend_is_callable(runnable, 0, NULL)) {
         zend_throw_exception(simplefork_exception_entry, "execution param must be callable", 0 TSRMLS_CC);
         return;
     }
