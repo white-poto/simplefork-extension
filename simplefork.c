@@ -198,7 +198,14 @@ PHP_METHOD(Process, getPid)
 
 PHP_METHOD(Process, name)
 {
-
+    zval *name;
+    if (FAILURE == zend_parse_parameters(ZEND_NUM_ARGS(), "|z", &name)){
+        RETURN_FALSE;
+    }
+    if(name == NULL)
+    {
+        RETURN_STRING(ZVAL_STRING_P(name), sizeof(ZVAL_STRING_P(name))-1);
+    }
 }
 
 PHP_METHOD(Process, start)
