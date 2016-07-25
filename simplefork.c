@@ -248,7 +248,7 @@ PHP_METHOD(Process, updateStatus)
         zval *running;
         MAKE_STD_ZVAL(running);
         ZVAL_BOOL(running, 1);
-        zend_update_property(process_class_entry, getThis(), "running", sizeof("running")-1, 0 TSRMLS_CC);
+        zend_update_property(process_class_entry, getThis(), "running", sizeof("running")-1, running TSRMLS_CC);
     }else {
         int error_no = 0;
         char *errmsg = NULL;
