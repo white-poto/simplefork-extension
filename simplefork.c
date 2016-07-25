@@ -310,7 +310,7 @@ PHP_METHOD(Process, isRunning)
     INIT_ZVAL(method_name);
     ZVAL_STRING(&method_name, "updateStatus", 1);
     if (call_user_function(
-        CG(function_table), getThis(), &method_name,
+        CG(function_table), &getThis(), &method_name,
         retval_ptr, param_count, params TSRMLS_CC
     ) == FAILURE
     ) {
