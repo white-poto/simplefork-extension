@@ -175,7 +175,12 @@ PHP_METHOD(Process, __construct)
 
 	zend_update_property(process_class_entry, getThis(), "runnable", sizeof("runnable")-1, runnable TSRMLS_CC);
 	zend_update_property(process_class_entry, getThis(), "name", sizeof("name")-1, process_name TSRMLS_CC);
-
+	zend_update_property(process_class_entry, getThis(), "pid", sizeof("pid")-1, NULL TSRMLS_CC);
+	zend_update_property(process_class_entry, getThis(), "running", sizeof("running")-1, NULL TSRMLS_CC);
+	zend_update_property(process_class_entry, getThis(), "term_signal", sizeof("term_signal")-1, NULL TSRMLS_CC);
+	zend_update_property(process_class_entry, getThis(), "stop_signal", sizeof("stop_signal")-1, NULL TSRMLS_CC);
+	zend_update_property(process_class_entry, getThis(), "errno", sizeof("errno")-1, NULL TSRMLS_CC);
+	zend_update_property(process_class_entry, getThis(), "errmsg", sizeof("errmsg")-1, NULL TSRMLS_CC);
 }
 /* }}} */
 
