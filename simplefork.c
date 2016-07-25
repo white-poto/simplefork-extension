@@ -203,12 +203,12 @@ PHP_METHOD(Process, getPid)
 
 PHP_METHOD(Process, name)
 {
-    zval *name = NULL;
-    if (FAILURE == zend_parse_parameters(ZEND_NUM_ARGS(), "|z", &name)){
-        RETURN_FALSE;
-    }
-
-    zend_update_property(process_class_entry, getThis(), "name", sizeof("name")-1, process_name TSRMLS_CC);
+//    zval *name = NULL;
+//    if (FAILURE == zend_parse_parameters(ZEND_NUM_ARGS(), "|z", &name)){
+//        RETURN_FALSE;
+//    }
+//
+//    zend_update_property(process_class_entry, getThis(), "name", sizeof("name")-1, process_name TSRMLS_CC);
 }
 
 PHP_METHOD(Process, start)
