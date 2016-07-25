@@ -30,6 +30,7 @@ class ProcessTest extends TestSuite
 
         $process = new SimpleFork\Process(null, "process_name");
         var_dump($process->name());
+        var_dump($process);
         $this->assertEquals("process_name", $process->name());
     }
 }
