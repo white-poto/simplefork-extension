@@ -302,7 +302,7 @@ PHP_METHOD(Process, isRunning)
     zval *block;
     MAKE_STD_ZVAL(block);
     ZVAL_LONG(block, 0);
-    zval *param = {&block};
+    zval *params = {&block};
 
     zval method_name;
     INIT_ZVAL(method_name);
