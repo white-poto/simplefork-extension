@@ -9,3 +9,5 @@
 $process = new SimpleFork\Process(null, "process_name");
 var_dump($process);
 var_dump($process->name());
+$process->name("test");
+var_dump($process->name());
