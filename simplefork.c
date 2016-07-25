@@ -306,7 +306,7 @@ PHP_METHOD(Process, isRunning)
     ZVAL_STRING(&method_name, "updateStatus", 1);
     if (call_user_function_ex(
         CG(function_table), &getThis(), &method_name,
-        &retval_ptr, 0, NULL TSRMLS_CC
+        &retval_ptr, 0, NULL, 0, NULL TSRMLS_CC
     ) == FAILURE
     ) {
         zend_throw_exception(simplefork_exception_entry, "call updateStatus failed", 0 TSRMLS_CC);
