@@ -12,3 +12,4 @@ var_dump($process->name());
 $process->name("test");
 var_dump($process->name());
 var_dump($process->updateStatus());
+var_dump($process->isRunning());
