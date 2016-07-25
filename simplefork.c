@@ -207,10 +207,7 @@ PHP_METHOD(Process, name)
     if (FAILURE == zend_parse_parameters(ZEND_NUM_ARGS(), "|z", &name)){
         RETURN_FALSE;
     }
-    if(name == NULL)
-    {
 
-    }
     zend_update_property(process_class_entry, getThis(), "name", sizeof("name")-1, name TSRMLS_CC);
 }
 
