@@ -139,6 +139,7 @@ static zend_function_entry process_class_methods[]={
 	PHP_ME(Process, __destruct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_DTOR)
 	PHP_ME(Process, getPid, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Process, name, process_name_args, ZEND_ACC_PUBLIC)
+	PHP_ME(Process, updateStatus, process_update_status_args, ZEND_ACC_PUBLIC)
 /*	PHP_ME(Process, isRunning, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Process, isStopped, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Process, isStarted, NULL, ZEND_ACC_PUBLIC)
@@ -150,7 +151,7 @@ static zend_function_entry process_class_methods[]={
 	PHP_ME(Process, wait, process_wait_args, ZEND_ACC_PUBLIC)
 	PHP_ME(Process, registerSignalHandler, process_register_signal_handler_args, ZEND_ACC_PUBLIC)
 	PHP_ME(Process, run, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Process, updateStatus, process_update_status_args, ZEND_ACC_PUBLIC)
+
 	PHP_ME(Process, signal, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Process, getCallable, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Process, initStatus, NULL, ZEND_ACC_PUBLIC)
@@ -198,6 +199,7 @@ PHP_METHOD(Process, getPid)
 
 PHP_METHOD(Process, name)
 {
+    // don't forget to set default value
     char *name = NULL;
     int name_len = 0;
     if (FAILURE == zend_parse_parameters(ZEND_NUM_ARGS(), "|s", &name, &name_len)){
@@ -213,6 +215,77 @@ PHP_METHOD(Process, name)
         MAKE_STD_ZVAL(process_name);
         ZVAL_STRING(process_name, name, name_len);
         zend_update_property(process_class_entry, getThis(), "name", sizeof("name")-1, process_name TSRMLS_CC);
+    }
+}
+
+PHP_METHOD(Process, updateStatus)
+{
+    long block = 0;
+    if (FAILURE == zend_parse_parameters(ZEND_NUM_ARGS(), "|l", &block)) {
+        RETURN_FALSE;
+    }
+
+    zval *is_running = zend_read_property(process_class_entry, getThis(), "running", sizeof("name")-1, 0 TSRMLS_DC);
+    if(!Z_BVAL_P(is_running)) {
+        RETURN_NULL();
+    }
+
+    zval *property_pid = zend_read_property(process_class_entry, getThis(), "pid", sizeof("pid")-1, 0 TSRMLS_DC);
+    int pid = Z_LVAL_P(pid);
+    int *stat_loc = NULL;
+    int wait_stat = 0;
+    if (block) {
+        wait_stat = wait(pid, stat_loc, WUNTRACED);
+    }else{
+        wait_stat = wait(pid, stat_loc, WNOHANG | WUNTRACED);
+    }
+
+    if(wait_stat == -1){
+        zend_throw_exception(simplefork_exception_entry, "waitpid failed. the process maybe available", 0 TSRMLS_CC);
+        return;
+    }
+    if(wait_stat == 0) {
+        zval *running;
+        MAKE_STD_ZVAL(running);
+        ZVAL_BOOL(running, 1);
+        zend_update_property(process_class_entry, getThis(), "running", sizeof("running")-1, 0 TSRMLS_CC);
+    }else {
+        int errno = WEXITSTATUS(stat_loc);
+        char *errmsg = strerror(errno);
+        int term_signal = 0;
+        int if_signal = 0;
+        int stop_signal = 0;
+        if (WIFSIGNALED(status)) {
+            term_signal = WTERMSIG(status);
+            if_signal = 1;
+        }else if (WIFSTOPPED(status)) {
+            stop_signal = WSTOPSIG(status);
+        }
+
+        zval *property_errno;
+        MAKE_STD_ZVAL(property_errno);
+        ZVAL_LONG(property_errno, errno);
+        zend_update_property(process_class_entry, getThis(), "errno", sizeof("errno")-1, property_errno TSRMLS_CC);
+
+        zval *property_errmsg;
+        MAKE_STD_ZVAL(property_errmsg);
+        ZVAL_STRING(property_errmsg, errmsg, strlen(errmsg));
+        zend_update_property(process_class_entry, getThis(), "errmsg", strlen("errmsg"), property_errmsg TSRMLS_CC);
+
+        zval *property_term_signal;
+        MAKE_STD_ZVAL(property_term_signal);
+        ZVAL_LONG(property_term_signal, term_signal);
+        zend_update_property(process_class_entry, getThis(), "term_signal", sizeof("term_signal")-1, property_term_signal TSRMLS_CC);
+
+        zval *property_if_signal;
+        MAKE_STD_ZVAL(property_if_signal);
+        ZVAL_BOOL(property_if_signal, if_signal);
+        zend_update_property(process_class_entry, getThis(), "if_signal", sizeof("term_signal")-1, property_if_signal TSRMLS_CC);
+
+        zval *property_stop_signal;
+        MAKE_STD_ZVAL(property_stop_signal);
+        ZVAL_LONG(property_stop_signal, stop_signal);
+        zend_update_property(process_class_entry, getThis(), "stop_signal", sizeof("stop_signal")-1, property_stop_signal TSRMLS_CC);
     }
 }
 

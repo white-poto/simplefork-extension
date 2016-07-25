@@ -73,6 +73,7 @@ PHP_METHOD(Process, __construct);
 PHP_METHOD(Process, __destruct);
 PHP_METHOD(Process, getPid);
 PHP_METHOD(Process, name);
+PHP_METHOD(Process, updateStatus);
 
 PHP_MINIT_FUNCTION(simplefork);
 PHP_MINIT_FUNCTION(simplefork);
