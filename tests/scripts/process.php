@@ -7,3 +7,4 @@
  */
 
 $process = new SimpleFork\Process(null, "process_name");
+var_dump($process->name());
