@@ -22,14 +22,7 @@ class ProcessTest extends TestSuite
 
     public function testConstruct()
     {
-        try {
             $process = new SimpleFork\Process("not a callable object");
-            $this->assertTrue(false);
-        } catch (Exception $e) {
-            $this->assertTrue(true);
-        }
-
-        $process = new SimpleFork\Process(null, "process_name");
     }
 }
 
