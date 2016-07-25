@@ -209,7 +209,10 @@ PHP_METHOD(Process, name)
         zval *process_name = zend_read_property(process_class_entry, getThis(), "name", sizeof("name")-1, 0 TSRMLS_DC);
         RETURN_ZVAL(process_name, 1, 0);
     }else{
-        zend_update_property(process_class_entry, getThis(), "name", sizeof("name")-1, name TSRMLS_CC);
+        zval *process_name;
+        MAKE_STD_ZVAL(process_name);
+        ZVAL_STRING(process_name, name, name_len);
+        zend_update_property(process_class_entry, getThis(), "name", sizeof("name")-1, process_name TSRMLS_CC);
     }
 }
 
