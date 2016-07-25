@@ -140,8 +140,8 @@ static zend_function_entry process_class_methods[]={
 	PHP_ME(Process, getPid, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Process, name, process_name_args, ZEND_ACC_PUBLIC)
 	PHP_ME(Process, updateStatus, process_update_status_args, ZEND_ACC_PUBLIC)
-/*	PHP_ME(Process, isRunning, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Process, isStopped, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Process, isRunning, NULL, ZEND_ACC_PUBLIC)
+/*	PHP_ME(Process, isStopped, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Process, isStarted, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Process, errno, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Process, errmsg, NULL, ZEND_ACC_PUBLIC)
@@ -225,7 +225,7 @@ PHP_METHOD(Process, updateStatus)
         RETURN_FALSE;
     }
 
-    zval *is_running = zend_read_property(process_class_entry, getThis(), "running", sizeof("name")-1, 0 TSRMLS_DC);
+    zval *is_running = zend_read_property(process_class_entry, getThis(), "running", sizeof("running")-1, 0 TSRMLS_DC);
     if(!Z_BVAL_P(is_running)) {
         RETURN_NULL();
     }
@@ -278,7 +278,7 @@ PHP_METHOD(Process, updateStatus)
         zval *property_errmsg;
         MAKE_STD_ZVAL(property_errmsg);
         ZVAL_STRING(property_errmsg, errmsg, strlen(errmsg));
-        zend_update_property(process_class_entry, getThis(), "errmsg", strlen("errmsg"), property_errmsg TSRMLS_CC);
+        zend_update_property(process_class_entry, getThis(), "errmsg", sizeof("errmsg")-1, property_errmsg TSRMLS_CC);
 
         zval *property_term_signal;
         MAKE_STD_ZVAL(property_term_signal);
