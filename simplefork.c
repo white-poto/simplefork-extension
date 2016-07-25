@@ -235,9 +235,9 @@ PHP_METHOD(Process, updateStatus)
     int *stat_loc = NULL;
     int wait_stat = 0;
     if (block) {
-        wait_stat = wait(pid, stat_loc, WUNTRACED);
+        wait_stat = wait(pid, &stat_loc, WUNTRACED);
     }else{
-        wait_stat = wait(pid, stat_loc, WNOHANG | WUNTRACED);
+        wait_stat = wait(pid, &stat_loc, WNOHANG | WUNTRACED);
     }
 
     if(wait_stat == -1){
