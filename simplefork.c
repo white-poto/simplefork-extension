@@ -163,8 +163,8 @@ static zend_function_entry process_class_methods[]={
 */
 PHP_METHOD(Process, __construct)
 {
-	zval *runnable = NULL;
-	zval *process_name = NULL;
+	zval *runnable;
+	zval *process_name;
 	if (FAILURE == zend_parse_parameters(ZEND_NUM_ARGS(), "|zz", &runnable, &process_name)){
 		RETURN_FALSE;
 	}
