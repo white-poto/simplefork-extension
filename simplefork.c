@@ -198,13 +198,12 @@ PHP_METHOD(Process, getPid)
 
 PHP_METHOD(Process, name)
 {
-    char *name;
-    int name_len;
+    char *name = NULL;
+    int name_len = 0;
     if (FAILURE == zend_parse_parameters(ZEND_NUM_ARGS(), "|s!", &name, &name_len)){
         RETURN_FALSE;
     }
 
-    printf(name);
     if(!name)
     {
         zval *process_name = zend_read_property(process_class_entry, getThis(), "name", sizeof("name")-1, 0 TSRMLS_DC);
@@ -212,7 +211,6 @@ PHP_METHOD(Process, name)
     }else{
         zend_update_property(process_class_entry, getThis(), "name", sizeof("name")-1, name TSRMLS_CC);
     }
-    RETURN_EMPTY_STRING();
 }
 
 PHP_METHOD(Process, start)
