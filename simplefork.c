@@ -462,17 +462,7 @@ PHP_METHOD(Process, wait)
         RETURN_FALSE;
     }
 
-	zval *z_pid = zend_read_property(process_class_entry, getThis(), "pid", sizeof("pid")-1, 0 TSRMLS_DC);
 
-	if(z_pid == NULL || Z_TYPE_P(z_pid) == IS_NULL){
-		zend_throw_exception(simplefork_exception_entry, "Process is not running because it has no pid", 0 TSRMLS_CC);
-		return;
-	}
-
-	zval *is_running = zend_read_property(process_class_entry, getThis(), "running", sizeof("running")-1, 0 TSRMLS_DC);
-
-	pid_t pid = Z_LVAL_P(z_pid);
-	int *status = NULL;
 	while(1){
 		php_printf("%ld", 12456);
         zval *retval_ptr;
