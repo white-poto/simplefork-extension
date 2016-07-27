@@ -17,3 +17,4 @@ var_dump($process->isStopped());
 var_dump($process->isStarted());
 var_dump($process->errorNo());
 var_dump($process->errmsg());
+var_dump($process->ifSignal());
