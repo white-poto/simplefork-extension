@@ -16,3 +16,4 @@ var_dump($process->isRunning());
 var_dump($process->isStopped());
 var_dump($process->isStarted());
 var_dump($process->errorNo());
+var_dump($process->errmsg());
