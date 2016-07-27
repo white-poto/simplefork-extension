@@ -464,20 +464,33 @@ PHP_METHOD(Process, wait)
 		return;
 	}
 
+	zval *is_running = zend_read_property(process_class_entry, getThis(), "running", sizeof("running")-1, 0 TSRMLS_DC);
+
 	pid_t pid = Z_LVAL_P(z_pid);
 	int *status = NULL;
 	while(1){
 		php_printf("%ld", 12456);
-		int res = waitpid(pid, status, WNOHANG);
-		if(res < 0){
-        	zend_throw_exception(simplefork_exception_entry, "wait sub process failed", 0 TSRMLS_CC);
-        	return;
-        }else if(res > 0){
-			zval *running = zend_read_property(process_class_entry, getThis(), "running", sizeof("running")-1, 0 TSRMLS_DC);
-			ZVAL_BOOL(running, 0);
-			RETURN_TRUE;
-		}
-		php_printf("%ld", &block);
+        zval *retval_ptr;
+
+        zval method_name;
+        INIT_ZVAL(method_name);
+        ZVAL_STRING(&method_name, "updateStatus", 1);
+        if (call_user_function_ex(
+            CG(function_table), &getThis(), &method_name,
+            &retval_ptr, 0, NULL, 0, NULL TSRMLS_CC
+        ) == FAILURE
+        ) {
+            zend_throw_exception(simplefork_exception_entry, "call updateStatus failed", 0 TSRMLS_CC);
+            return;
+        }
+
+        zval_ptr_dtor(&retval_ptr);
+        zval_dtor(&method_name);
+
+        zend_bool running = Z_BVAL_P(is_running);
+        if(running == 0){
+            RETURN_TRUE;
+        }
 
 		if(!block || &block == 0){
 			RETURN_FALSE;
