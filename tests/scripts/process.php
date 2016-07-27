@@ -24,6 +24,7 @@ $process = new SimpleFork\Process(function() {
 //var_dump($process->start());
 $process->start();
 for($i=0; $i<2; $i++) {
+    echo "wait", PHP_EOL;
     $process->wait(false);
     echo "wait, ", $i, PHP_EOL;
 }
