@@ -141,8 +141,8 @@ static zend_function_entry process_class_methods[]={
 	PHP_ME(Process, name, process_name_args, ZEND_ACC_PUBLIC)
 	PHP_ME(Process, updateStatus, process_update_status_args, ZEND_ACC_PUBLIC)
 	PHP_ME(Process, isRunning, NULL, ZEND_ACC_PUBLIC)
-/*	PHP_ME(Process, isStopped, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Process, isStarted, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Process, isStopped, NULL, ZEND_ACC_PUBLIC)
+/*	PHP_ME(Process, isStarted, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Process, errno, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Process, errmsg, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Process, ifSignal, NULL, ZEND_ACC_PUBLIC)
@@ -318,6 +318,36 @@ PHP_METHOD(Process, isRunning)
 
     zval *running = zend_read_property(process_class_entry, getThis(), "running", sizeof("running")-1, 0 TSRMLS_DC);
     RETURN_ZVAL(running, 1, 0);
+}
+
+PHP_METHOD(Process, isStopped)
+{
+    zval *retval_ptr;
+
+    zval method_name;
+    INIT_ZVAL(method_name);
+    ZVAL_STRING(&method_name, "isRunning", 1);
+    if (call_user_function_ex(
+        CG(function_table), &getThis(), &method_name,
+        &retval_ptr, 0, NULL, 0, NULL TSRMLS_CC
+    ) == FAILURE
+    ) {
+        zend_throw_exception(simplefork_exception_entry, "call updateStatus failed", 0 TSRMLS_CC);
+        return;
+    }
+
+    zval *is_running;
+    MAKE_STD_ZVAL(is_running);
+    if(Z_BVAL_P(retval_ptr) == 0) {
+        ZVAL_BOOL(is_running, 1);
+    }else {
+        ZVAL_BOOL(is_running, 0);
+    }
+
+    zval_ptr_dtor(&retval_ptr);
+    zval_dtor(&method_name);
+
+    RETURN_ZVAL(is_running, 1, 0);
 }
 
 PHP_METHOD(Process, start)
