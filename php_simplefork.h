@@ -85,7 +85,6 @@ PHP_MSHUTDOWN_FUNCTION(simplefork);
 
 
 
-
 /*
  * Local variables:
  * tab-width: 4
