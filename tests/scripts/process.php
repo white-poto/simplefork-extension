@@ -22,4 +22,9 @@ $process = new SimpleFork\Process(function() {
 //var_dump($process->errmsg());
 //var_dump($process->ifSignal());
 //var_dump($process->start());
-
+$process->start();
+for($i=0; $i<2; $i++) {
+    $process->wait(false);
+    echo "wait, ", $i, PHP_EOL;
+}
+$process->wait();
