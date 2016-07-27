@@ -6,7 +6,9 @@
  * Time: 11:48
  */
 
-$process = new SimpleFork\Process(null, "process_name");
+$process = new SimpleFork\Process(function() {
+    echo "test", PHP_EOL;
+}, "process_name");
 var_dump($process);
 var_dump($process->name());
 $process->name("test");
@@ -18,3 +20,4 @@ var_dump($process->isStarted());
 var_dump($process->errorNo());
 var_dump($process->errmsg());
 var_dump($process->ifSignal());
+var_dump($process->start());

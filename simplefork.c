@@ -146,8 +146,8 @@ static zend_function_entry process_class_methods[]={
 	PHP_ME(Process, errorNo, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Process, errmsg, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Process, ifSignal, NULL, ZEND_ACC_PUBLIC)
-/*	PHP_ME(Process, start, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Process, shutdown, process_shutdown_args, ZEND_ACC_PUBLIC)
+	PHP_ME(Process, start, NULL, ZEND_ACC_PUBLIC)
+/*	PHP_ME(Process, shutdown, process_shutdown_args, ZEND_ACC_PUBLIC)
 	PHP_ME(Process, wait, process_wait_args, ZEND_ACC_PUBLIC)
 	PHP_ME(Process, registerSignalHandler, process_register_signal_handler_args, ZEND_ACC_PUBLIC)
 	PHP_ME(Process, run, NULL, ZEND_ACC_PUBLIC)
@@ -383,19 +383,74 @@ PHP_METHOD(Process, start)
 {
 	zval *method_name = NULL;
 	MAKE_STD_ZVAL(method_name);
-	ZVAL_STRING(method_name, "isAlive", 1);
+	ZVAL_STRING(method_name, "isStarted", 1);
 	zval *obj = getThis();
-	zval *is_alive = NULL;
+	zval *is_started = NULL;
 
-	if(call_user_function(NULL, &(obj), method_name, is_alive, 0 ,NULL TSRMLS_CC) != SUCCESS){
+	if(call_user_function(NULL, &(obj), method_name, is_started, 0 ,NULL TSRMLS_CC) != SUCCESS){
 		zend_throw_exception(simplefork_exception_entry, "call isAlive method failed", 0 TSRMLS_CC);
 		return;
 	}
 
-	zend_bool alive = Z_BVAL_P(is_alive);
-	if(alive){
-		zend_throw_exception(simplefork_exception_entry, "the process is running already", 0 TSRMLS_CC);
+	zend_bool started = Z_BVAL_P(is_started);
+	if(started){
+		zend_throw_exception(simplefork_exception_entry, "the process is started already", 0 TSRMLS_CC);
 		return;
+	}
+
+	pid_t pid = fork();
+	if(pid < 0) {
+	    zend_throw_exception(simplefork_exception_entry, "fork failed");
+	    return;
+	}else if(pid == 0) {
+	    zval *property_pid;
+        MAKE_STD_ZVAL(property_pid);
+        ZVAL_LONG(property_pid, pid);
+        zend_update_property(process_class_entry, getThis(), "pid", sizeof("pid")-1, process_pid TSRMLS_CC);
+
+        zval *property_running;
+        MAKE_STD_ZVAL(property_running);
+        ZVAL_BOOL(process_running, 1);
+        zend_update_property(process_class_entry, getThis(), "running", sizeof("running")-1, property_running TSRMLS_CC);
+
+        zval *property_started;
+        MAKE_STD_ZVAL(property_stop_signal);
+        ZVAL_BOOL(property_started, 1);
+        zend_update_property(process_class_entry, getThis(), "started", sizeof("started")-1, property_started TSRMLS_CC);
+	}else {
+	    zval *runnable = zend_read_property(process_class_entry, getThis(), "runnable", sizeof("runnable")-1, 0 TSRMLS_DC);
+	    if (Z_TYPE_P(runnable) != IS_NULL && !zend_is_callable(runnable, 0, NULL)) {
+            zend_throw_exception(simplefork_exception_entry, "execution param must be callable", 0 TSRMLS_CC);
+            return;
+        }else if(Z_TYPE_P(runnable) != IS_NULL) {
+            zval *retval_ptr;
+            if (call_user_function_ex(
+                CG(function_table), NULL, &runnable,
+                &retval_ptr, 0, NULL, 0, NULL TSRMLS_CC
+            ) == FAILURE
+            ) {
+                zend_throw_exception(simplefork_exception_entry, "call runnable failed", 0 TSRMLS_CC);
+                return;
+            }
+            zval_ptr_dtor(&retval_ptr);
+        }else{
+            zval *retval_ptr;
+
+            zval method_name;
+            INIT_ZVAL(method_name);
+            ZVAL_STRING(&method_name, "run", 1);
+            if (call_user_function_ex(
+                CG(function_table), &getThis(), &method_name,
+                &retval_ptr, 0, NULL, 0, NULL TSRMLS_CC
+            ) == FAILURE
+            ) {
+                zend_throw_exception(simplefork_exception_entry, "call method run failed", 0 TSRMLS_CC);
+                return;
+            }
+
+            zval_ptr_dtor(&retval_ptr);
+            zval_dtor(&method_name);
+        }
 	}
 }
 

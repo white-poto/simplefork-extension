@@ -80,6 +80,7 @@ PHP_METHOD(Process, isStarted);
 PHP_METHOD(Process, errorNo);
 PHP_METHOD(Process, errmsg);
 PHP_METHOD(Process, ifSignal);
+PHP_METHOD(Process, start);
 
 PHP_MINIT_FUNCTION(simplefork);
 PHP_MINIT_FUNCTION(simplefork);
