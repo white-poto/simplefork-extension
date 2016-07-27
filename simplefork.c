@@ -253,7 +253,9 @@ PHP_METHOD(Process, updateStatus)
     }
     if(wait_stat == 0) {
         ZVAL_BOOL(is_running, 1);
+        php_printf("%ld", 111111);
     }else {
+        php_printf("%ld", 222222);
         int error_no = 0;
         char *errmsg = NULL;
         int term_signal = 0;
@@ -291,6 +293,7 @@ PHP_METHOD(Process, updateStatus)
         zval *property_stop_signal = zend_read_property(process_class_entry, getThis(), "stop_signal", sizeof("stop_signal")-1, 0 TSRMLS_DC);
         ZVAL_LONG(property_stop_signal, stop_signal);
     }
+    php_printf("%ld", 333333);
 }
 
 PHP_METHOD(Process, isRunning)
