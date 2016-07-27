@@ -414,7 +414,7 @@ PHP_METHOD(Process, start)
         zend_update_property(process_class_entry, getThis(), "running", sizeof("running")-1, property_running TSRMLS_CC);
 
         zval *property_started;
-        MAKE_STD_ZVAL(property_stop_signal);
+        MAKE_STD_ZVAL(property_started);
         ZVAL_BOOL(property_started, 1);
         zend_update_property(process_class_entry, getThis(), "started", sizeof("started")-1, property_started TSRMLS_CC);
 	}else {
@@ -425,7 +425,7 @@ PHP_METHOD(Process, start)
         }else if(Z_TYPE_P(runnable) != IS_NULL) {
             zval *retval_ptr;
             if (call_user_function_ex(
-                CG(function_table), NULL, &runnable,
+                CG(function_table), NULL, runnable,
                 &retval_ptr, 0, NULL, 0, NULL TSRMLS_CC
             ) == FAILURE
             ) {
