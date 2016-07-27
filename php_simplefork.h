@@ -77,7 +77,7 @@ PHP_METHOD(Process, updateStatus);
 PHP_METHOD(Process, isRunning);
 PHP_METHOD(Process, isStopped);
 PHP_METHOD(Process, isStarted);
-PHP_METHOD(Process, errno);
+PHP_METHOD(Process, errorNo);
 
 PHP_MINIT_FUNCTION(simplefork);
 PHP_MINIT_FUNCTION(simplefork);
