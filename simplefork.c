@@ -250,10 +250,7 @@ PHP_METHOD(Process, updateStatus)
         return;
     }
     if(wait_stat == 0) {
-        zval *running;
-        MAKE_STD_ZVAL(running);
-        ZVAL_BOOL(running, 1);
-        zend_update_property(process_class_entry, getThis(), "running", sizeof("running")-1, running TSRMLS_CC);
+        ZVAL_BOOL(is_running, 1);
     }else {
         int error_no = 0;
         char *errmsg = NULL;
@@ -275,30 +272,22 @@ PHP_METHOD(Process, updateStatus)
             stop_signal = WSTOPSIG(stat_loc);
         }
 
-        zval *property_errno;
-        MAKE_STD_ZVAL(property_errno);
+        ZVAL_BOOL(is_running, 0);
+
+        zval *property_errno = zend_read_property(process_class_entry, getThis(), "errno", sizeof("errno")-1, 0 TSRMLS_DC);
         ZVAL_LONG(property_errno, error_no);
-        zend_update_property(process_class_entry, getThis(), "errno", sizeof("errno")-1, property_errno TSRMLS_CC);
 
-        zval *property_errmsg;
-        MAKE_STD_ZVAL(property_errmsg);
+        zval *property_errmsg = zend_read_property(process_class_entry, getThis(), "errmsg", sizeof("errmsg")-1, 0 TSRMLS_DC);
         ZVAL_STRING(property_errmsg, errmsg, strlen(errmsg));
-        zend_update_property(process_class_entry, getThis(), "errmsg", sizeof("errmsg")-1, property_errmsg TSRMLS_CC);
 
-        zval *property_term_signal;
-        MAKE_STD_ZVAL(property_term_signal);
+        zval *property_term_signal = zend_read_property(process_class_entry, getThis(), "term_signal", sizeof("erm_signal")-1, 0 TSRMLS_DC);
         ZVAL_LONG(property_term_signal, term_signal);
-        zend_update_property(process_class_entry, getThis(), "term_signal", sizeof("term_signal")-1, property_term_signal TSRMLS_CC);
 
-        zval *property_if_signal;
-        MAKE_STD_ZVAL(property_if_signal);
+        zval *property_if_signal = zend_read_property(process_class_entry, getThis(), "if_signal", sizeof("if_signal")-1, 0 TSRMLS_DC);
         ZVAL_BOOL(property_if_signal, if_signal);
-        zend_update_property(process_class_entry, getThis(), "if_signal", sizeof("term_signal")-1, property_if_signal TSRMLS_CC);
 
-        zval *property_stop_signal;
-        MAKE_STD_ZVAL(property_stop_signal);
+        zval *property_stop_signal = zend_read_property(process_class_entry, getThis(), "stop_signal", sizeof("stop_signal")-1, 0 TSRMLS_DC);
         ZVAL_LONG(property_stop_signal, stop_signal);
-        zend_update_property(process_class_entry, getThis(), "stop_signal", sizeof("stop_signal")-1, property_stop_signal TSRMLS_CC);
     }
 }
 
@@ -478,6 +467,7 @@ PHP_METHOD(Process, wait)
 	pid_t pid = Z_LVAL_P(z_pid);
 	int *status = NULL;
 	do{
+		php_printf("%ld", 12456);
 		int res = waitpid(pid, status, WNOHANG);
 		if(res < 0){
         	zend_throw_exception(simplefork_exception_entry, "wait sub process failed", 0 TSRMLS_CC);
