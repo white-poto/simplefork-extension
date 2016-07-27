@@ -384,11 +384,10 @@ PHP_METHOD(Process, start)
 	zval *method_name = NULL;
 	MAKE_STD_ZVAL(method_name);
 	ZVAL_STRING(method_name, "isStarted", 1);
-	zval *obj = getThis();
 	zval *is_started = NULL;
 
-	if(call_user_function(NULL, &(obj), method_name, is_started, 0 ,NULL TSRMLS_CC) != SUCCESS){
-		zend_throw_exception(simplefork_exception_entry, "call isAlive method failed", 0 TSRMLS_CC);
+	if(call_user_function(NULL, &getThis(), method_name, is_started, 0 ,NULL TSRMLS_CC) != SUCCESS){
+		zend_throw_exception(simplefork_exception_entry, "call isStarted method failed", 0 TSRMLS_CC);
 		return;
 	}
 
