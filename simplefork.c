@@ -363,8 +363,8 @@ PHP_METHOD(Process, isStarted)
 
 PHP_METHOD(Process, errno)
 {
-    zval *errno = zend_read_property(process_class_entry, getThis(), "errno", sizeof("errno")-1, 0 TSRMLS_DC);
-    RETURN_ZVAL(errno, 1, 0);
+    zval *error_no = zend_read_property(process_class_entry, getThis(), "errno", sizeof("errno")-1, 0 TSRMLS_DC);
+    RETURN_ZVAL(error_no, 1, 0);
 }
 
 PHP_METHOD(Process, start)
