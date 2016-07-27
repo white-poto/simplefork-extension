@@ -466,7 +466,7 @@ PHP_METHOD(Process, wait)
 
 	pid_t pid = Z_LVAL_P(z_pid);
 	int *status = NULL;
-	do{
+	while(1){
 		php_printf("%ld", 12456);
 		int res = waitpid(pid, status, WNOHANG);
 		if(res < 0){
@@ -484,7 +484,7 @@ PHP_METHOD(Process, wait)
 		}
 
 		usleep(sleep);
-	}while(&block)
+	}
 }
 
 
