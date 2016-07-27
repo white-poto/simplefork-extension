@@ -477,7 +477,7 @@ PHP_METHOD(Process, wait)
 
 	pid_t pid = Z_LVAL_P(z_pid);
 	int *status = NULL;
-	while(1){
+	do{
 		int res = waitpid(pid, status, WNOHANG);
 		if(res < 0){
         	zend_throw_exception(simplefork_exception_entry, "wait sub process failed", 0 TSRMLS_CC);
@@ -487,13 +487,14 @@ PHP_METHOD(Process, wait)
 			ZVAL_BOOL(running, 0);
 			RETURN_TRUE;
 		}
+		php_printf("%ld", &block);
 
 		if(!block || &block == 0){
 			RETURN_FALSE;
 		}
 
 		usleep(sleep);
-	}
+	}while(&block)
 }
 
 
