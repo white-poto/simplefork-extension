@@ -469,7 +469,7 @@ PHP_METHOD(Process, wait)
 
         zval method_name;
         INIT_ZVAL(method_name);
-        ZVAL_STRING(&method_name, "updateStatus", 1);
+        ZVAL_STRING(&method_name, "isRunning", 1);
         if (call_user_function_ex(
             CG(function_table), &getThis(), &method_name,
             &retval_ptr, 0, NULL, 0, NULL TSRMLS_CC
