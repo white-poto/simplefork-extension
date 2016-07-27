@@ -400,17 +400,17 @@ PHP_METHOD(Process, start)
 
 	pid_t pid = fork();
 	if(pid < 0) {
-	    zend_throw_exception(simplefork_exception_entry, "fork failed");
+	    zend_throw_exception(simplefork_exception_entry, "fork failed", 0 TSRMLS_CC);
 	    return;
 	}else if(pid == 0) {
 	    zval *property_pid;
         MAKE_STD_ZVAL(property_pid);
         ZVAL_LONG(property_pid, pid);
-        zend_update_property(process_class_entry, getThis(), "pid", sizeof("pid")-1, process_pid TSRMLS_CC);
+        zend_update_property(process_class_entry, getThis(), "pid", sizeof("pid")-1, property_pid TSRMLS_CC);
 
         zval *property_running;
         MAKE_STD_ZVAL(property_running);
-        ZVAL_BOOL(process_running, 1);
+        ZVAL_BOOL(property_running, 1);
         zend_update_property(process_class_entry, getThis(), "running", sizeof("running")-1, property_running TSRMLS_CC);
 
         zval *property_started;
