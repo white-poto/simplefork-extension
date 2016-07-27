@@ -143,8 +143,8 @@ static zend_function_entry process_class_methods[]={
 	PHP_ME(Process, isRunning, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Process, isStopped, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Process, isStarted, NULL, ZEND_ACC_PUBLIC)
-/*	PHP_ME(Process, errno, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Process, errmsg, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Process, errno, NULL, ZEND_ACC_PUBLIC)
+/*	PHP_ME(Process, errmsg, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Process, ifSignal, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Process, start, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Process, shutdown, process_shutdown_args, ZEND_ACC_PUBLIC)
@@ -359,6 +359,12 @@ PHP_METHOD(Process, isStarted)
 {
     zval *is_started = zend_read_property(process_class_entry, getThis(), "started", sizeof("started")-1, 0 TSRMLS_DC);
     RETURN_ZVAL(is_started, 1, 0);
+}
+
+PHP_METHOD(Process, errno)
+{
+    zval *errno = zend_read_property(process_class_entry, getThis(), "errno", sizeof("errno")-1, 0 TSRMLS_DC);
+    RETURN_ZVAL(errno, 1, 0);
 }
 
 PHP_METHOD(Process, start)
