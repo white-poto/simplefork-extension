@@ -280,6 +280,11 @@ PHP_METHOD(Process, updateStatus)
         ZVAL_STRING(property_errmsg, errmsg, strlen(errmsg));
         zend_update_property(process_class_entry, getThis(), "errmsg", sizeof("errmsg")-1, property_errmsg TSRMLS_CC);
 
+        zval *property_started;
+        MAKE_STD_ZVAL(property_started);
+        ZVAL_BOOL(property_started, 0);
+        zend_update_property(process_class_entry, getThis(), "started", sizeof("started")-1, property_started TSRMLS_CC);
+
         zval *property_term_signal;
         MAKE_STD_ZVAL(property_term_signal);
         ZVAL_LONG(property_term_signal, term_signal);
