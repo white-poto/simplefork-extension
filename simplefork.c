@@ -147,9 +147,9 @@ static zend_function_entry process_class_methods[]={
 	PHP_ME(Process, errmsg, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Process, ifSignal, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Process, start, NULL, ZEND_ACC_PUBLIC)
-/*	PHP_ME(Process, shutdown, process_shutdown_args, ZEND_ACC_PUBLIC)
+//	PHP_ME(Process, shutdown, process_shutdown_args, ZEND_ACC_PUBLIC)
 	PHP_ME(Process, wait, process_wait_args, ZEND_ACC_PUBLIC)
-	PHP_ME(Process, registerSignalHandler, process_register_signal_handler_args, ZEND_ACC_PUBLIC)
+/*	PHP_ME(Process, registerSignalHandler, process_register_signal_handler_args, ZEND_ACC_PUBLIC)
 	PHP_ME(Process, run, NULL, ZEND_ACC_PUBLIC)
 
 	PHP_ME(Process, signal, NULL, ZEND_ACC_PUBLIC)
