@@ -239,11 +239,13 @@ PHP_METHOD(Process, updateStatus)
     int pid = Z_LVAL_P(property_pid);
     int stat_loc = 0;
     int wait_stat = 0;
+    php_printf("%ld", 3344)
     if (block) {
         wait_stat = wait(pid, &stat_loc, WNOHANG);
     }else{
         wait_stat = wait(pid, &stat_loc, WNOHANG);
     }
+    php_printf("%ld", 4455)
 
     if(wait_stat == -1){
         zend_throw_exception(simplefork_exception_entry, "waitpid failed. the process maybe available", 0 TSRMLS_CC);
