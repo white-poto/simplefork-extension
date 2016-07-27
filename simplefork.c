@@ -251,6 +251,7 @@ PHP_METHOD(Process, updateStatus)
         zend_throw_exception(simplefork_exception_entry, "waitpid failed. the process maybe available", 0 TSRMLS_CC);
         return;
     }
+    php_printf("%ld", 999999);
     if(wait_stat == 0) {
         ZVAL_BOOL(is_running, 1);
         php_printf("%ld", 111111);
