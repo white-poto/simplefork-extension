@@ -240,9 +240,9 @@ PHP_METHOD(Process, updateStatus)
     int stat_loc = 0;
     int wait_stat = 0;
     if (block) {
-        wait_stat = wait(pid, &stat_loc, WNOHANG | WUNTRACED);
+        wait_stat = wait(pid, &stat_loc, WNOHANG);
     }else{
-        wait_stat = wait(pid, &stat_loc, WNOHANG | WUNTRACED);
+        wait_stat = wait(pid, &stat_loc, WNOHANG);
     }
 
     if(wait_stat == -1){
