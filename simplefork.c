@@ -239,7 +239,7 @@ PHP_METHOD(Process, updateStatus)
     int pid = Z_LVAL_P(property_pid);
     int stat_loc = 0;
     int wait_stat = 0;
-    php_printf("%ld", 3344)
+    php_printf("%ld", 3344);
     if (block) {
         wait_stat = wait(pid, &stat_loc, WNOHANG);
     }else{
