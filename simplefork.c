@@ -463,7 +463,6 @@ PHP_METHOD(Process, run)
 PHP_METHOD(Process, wait)
 {
 	zend_bool *block = NULL;
-	&block = 0;
 	long sleep = 100;
 	if (FAILURE == zend_parse_parameters(ZEND_NUM_ARGS(), "|bl", &block, sleep)){
         RETURN_FALSE;
@@ -489,7 +488,7 @@ PHP_METHOD(Process, wait)
 			RETURN_TRUE;
 		}
 
-		if(!&block){
+		if(!block || &block == 0){
 			RETURN_FALSE;
 		}
 
