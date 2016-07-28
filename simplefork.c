@@ -239,29 +239,22 @@ PHP_METHOD(Process, updateStatus)
     long pid = Z_LVAL_P(property_pid);
     int stat_loc = 0;
     int wait_stat = 0;
-    php_printf("pid:%ld", pid);
-    php_printf("%ld", 3344);
+    php_printf("pid:%ld\n", pid);
     if (block) {
         wait_stat = wait(pid, &stat_loc, WNOHANG);
     }else{
         wait_stat = wait(pid, &stat_loc, WNOHANG);
     }
-    php_printf("%ld", 4455);
-    php_printf("\n");
-    php_printf("%ld", wait_stat);
+    php_printf("wait_stat:%ld\n", wait_stat);
 
     if(wait_stat == -1){
-        php_printf("dddd\n");
         zend_throw_exception(simplefork_exception_entry, "waitpid failed. the process maybe available", 0 TSRMLS_CC);
-        php_printf("eeeee\n");
         return;
     }
-    php_printf("%ld", 999999);
+
     if(wait_stat == 0) {
         ZVAL_BOOL(is_running, 1);
-        php_printf("%ld", 111111);
     }else {
-        php_printf("%ld", 222222);
         int error_no = 0;
         char *errmsg = NULL;
         int term_signal = 0;
@@ -299,7 +292,6 @@ PHP_METHOD(Process, updateStatus)
         zval *property_stop_signal = zend_read_property(process_class_entry, getThis(), "stop_signal", sizeof("stop_signal")-1, 0 TSRMLS_DC);
         ZVAL_LONG(property_stop_signal, stop_signal);
     }
-    php_printf("%ld", 333333);
 }
 
 PHP_METHOD(Process, isRunning)
