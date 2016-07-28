@@ -8,7 +8,7 @@
 
 $process = new SimpleFork\Process(function() {
     echo getmypid(), ". sub_process", PHP_EOL;
-    sleep(20);
+    //sleep(20);
 }, "process_name");
 //var_dump($process);
 //var_dump($process->name());
