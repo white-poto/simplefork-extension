@@ -471,11 +471,11 @@ PHP_METHOD(Process, wait)
         }
 
         zend_bool running = Z_BVAL_P(retval_ptr);
-        if(running == 0){
-            zval_ptr_dtor(&retval_ptr);
-            zval_dtor(&method_name);
-            RETURN_TRUE;
-        }
+//        if(running == 0){
+//            zval_ptr_dtor(&retval_ptr);
+//            zval_dtor(&method_name);
+//            RETURN_TRUE;
+//        }
 
 		if(!block || &block == 0){
 		    zval_ptr_dtor(&retval_ptr);
