@@ -296,22 +296,22 @@ PHP_METHOD(Process, updateStatus)
 
 PHP_METHOD(Process, isRunning)
 {
-    zval *retval_ptr;
-
-    zval method_name;
-    INIT_ZVAL(method_name);
-    ZVAL_STRING(&method_name, "updateStatus", 1);
-    if (call_user_function_ex(
-        CG(function_table), &getThis(), &method_name,
-        &retval_ptr, 0, NULL, 0, NULL TSRMLS_CC
-    ) == FAILURE
-    ) {
-        zend_throw_exception(simplefork_exception_entry, "call updateStatus failed", 0 TSRMLS_CC);
-        return;
-    }
-
-    zval_ptr_dtor(&retval_ptr);
-    zval_dtor(&method_name);
+//    zval *retval_ptr;
+//
+//    zval method_name;
+//    INIT_ZVAL(method_name);
+//    ZVAL_STRING(&method_name, "updateStatus", 1);
+//    if (call_user_function_ex(
+//        CG(function_table), &getThis(), &method_name,
+//        &retval_ptr, 0, NULL, 0, NULL TSRMLS_CC
+//    ) == FAILURE
+//    ) {
+//        zend_throw_exception(simplefork_exception_entry, "call updateStatus failed", 0 TSRMLS_CC);
+//        return;
+//    }
+//
+//    zval_ptr_dtor(&retval_ptr);
+//    zval_dtor(&method_name);
 
     zval *running = zend_read_property(process_class_entry, getThis(), "running", sizeof("running")-1, 0 TSRMLS_DC);
     RETURN_ZVAL(running, 1, 0);
@@ -455,36 +455,36 @@ PHP_METHOD(Process, wait)
         RETURN_FALSE;
     }
 
-//    zval *retval_ptr;
-//    zval *method_name = NULL;
-//    MAKE_STD_ZVAL(method_name);
-//    ZVAL_STRING(method_name, "isRunning", 1);
-//	while(1){
-//	    php_printf("runnnnnnnnnnn\n");
-//        if (call_user_function_ex(
-//            CG(function_table), &getThis(), &method_name,
-//            &retval_ptr, 0, NULL, 0, NULL TSRMLS_CC
-//        ) == FAILURE
-//        ) {
-//            zend_throw_exception(simplefork_exception_entry, "call updateStatus failed", 0 TSRMLS_CC);
-//            return;
-//        }
-//
-//        zend_bool running = Z_BVAL_P(retval_ptr);
-//        if(running == 0){
-//            zval_ptr_dtor(&retval_ptr);
-//            zval_dtor(&method_name);
-//            RETURN_TRUE;
-//        }
-//
-//		if(!block || &block == 0){
-//		    zval_ptr_dtor(&retval_ptr);
-//            zval_dtor(&method_name);
-//			RETURN_FALSE;
-//		}
-//
-//		usleep(sleep);
-//	}
+    zval *retval_ptr;
+    zval *method_name = NULL;
+    MAKE_STD_ZVAL(method_name);
+    ZVAL_STRING(method_name, "isRunning", 1);
+	while(1){
+	    php_printf("runnnnnnnnnnn\n");
+        if (call_user_function_ex(
+            CG(function_table), &getThis(), &method_name,
+            &retval_ptr, 0, NULL, 0, NULL TSRMLS_CC
+        ) == FAILURE
+        ) {
+            zend_throw_exception(simplefork_exception_entry, "call updateStatus failed", 0 TSRMLS_CC);
+            return;
+        }
+
+        zend_bool running = Z_BVAL_P(retval_ptr);
+        if(running == 0){
+            zval_ptr_dtor(&retval_ptr);
+            zval_dtor(&method_name);
+            RETURN_TRUE;
+        }
+
+		if(!block || &block == 0){
+		    zval_ptr_dtor(&retval_ptr);
+            zval_dtor(&method_name);
+			RETURN_FALSE;
+		}
+
+		usleep(sleep);
+	}
 }
 
 
