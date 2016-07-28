@@ -268,7 +268,7 @@ PHP_METHOD(Process, updateStatus)
         zval *property_errmsg = zend_read_property(process_class_entry, getThis(), "errmsg", sizeof("errmsg")-1, 0 TSRMLS_DC);
         ZVAL_STRING(property_errmsg, errmsg, strlen(errmsg));
 
-        zval *property_term_signal = zend_read_property(process_class_entry, getThis(), "term_signal", sizeof("erm_signal")-1, 0 TSRMLS_DC);
+        zval *property_term_signal = zend_read_property(process_class_entry, getThis(), "term_signal", sizeof("term_signal")-1, 0 TSRMLS_DC);
         ZVAL_LONG(property_term_signal, term_signal);
 
         zval *property_if_signal = zend_read_property(process_class_entry, getThis(), "if_signal", sizeof("if_signal")-1, 0 TSRMLS_DC);
