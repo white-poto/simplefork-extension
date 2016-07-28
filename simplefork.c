@@ -181,10 +181,8 @@ PHP_METHOD(Process, __construct)
 	    zend_update_property(process_class_entry, getThis(), "name", sizeof("name")-1, process_name TSRMLS_CC);
     }
 
-    zval *property_started;
-    MAKE_STD_ZVAL(property_started);
+    zval *property_started = zend_read_property(process_class_entry, getThis(), "started", sizeof("started")-1, 0 TSRMLS_DC);
     ZVAL_BOOL(property_started, 0);
-    zend_update_property(process_class_entry, getThis(), "started", sizeof("started")-1, property_started TSRMLS_CC);
 }
 /* }}} */
 
@@ -211,15 +209,12 @@ PHP_METHOD(Process, name)
         RETURN_FALSE;
     }
 
+    zval *process_name = zend_read_property(process_class_entry, getThis(), "name", sizeof("name")-1, 0 TSRMLS_DC);
     if(!name)
     {
-        zval *process_name = zend_read_property(process_class_entry, getThis(), "name", sizeof("name")-1, 0 TSRMLS_DC);
         RETURN_ZVAL(process_name, 1, 0);
-    }else{
-        zval *process_name;
-        MAKE_STD_ZVAL(process_name);
+    }else {
         ZVAL_STRING(process_name, name, name_len);
-        zend_update_property(process_class_entry, getThis(), "name", sizeof("name")-1, process_name TSRMLS_CC);
     }
 }
 
