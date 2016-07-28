@@ -339,8 +339,9 @@ PHP_METHOD(Process, isStopped)
         ZVAL_BOOL(is_running, 0);
     }
 
+    *return_value=*retval_ptr;
+    zval_copy_ctor(return_value);
     zval_ptr_dtor(&retval_ptr);
-    zval_dtor(&method_name);
 
     RETURN_ZVAL(is_running, 1, 0);
 }
@@ -462,7 +463,7 @@ PHP_METHOD(Process, wait)
 	    php_printf("runnnnnnnnnnn\n");
         if (call_user_function_ex(
             CG(function_table), &getThis(), &method_name,
-            retval_ptr, 0, NULL, 0, NULL TSRMLS_CC
+            &retval_ptr, 0, NULL, 0, NULL TSRMLS_CC
         ) == FAILURE
         ) {
             zend_throw_exception(simplefork_exception_entry, "call isRunning failed", 0 TSRMLS_CC);
@@ -473,8 +474,8 @@ PHP_METHOD(Process, wait)
         php_printf("running:%ld\n", is_running);
         if(is_running == 0){
             *return_value=*retval_ptr;
-                    zval_copy_ctor(return_value);
-                    zval_ptr_dtor(&retval_ptr);
+            zval_copy_ctor(return_value);
+            zval_ptr_dtor(&retval_ptr);
             RETURN_TRUE;
         }
 
