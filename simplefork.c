@@ -473,9 +473,11 @@ PHP_METHOD(Process, wait)
             zval_dtor(&method_name);
 			RETURN_FALSE;
 		}
+		zval_ptr_dtor(&retval_ptr);
 
 		usleep(sleep);
 	}
+	zval_dtor(&method_name);
 }
 
 
