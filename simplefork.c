@@ -471,7 +471,7 @@ PHP_METHOD(Process, wait)
             return;
         }
 
-        zend_bool is_running = Z_BVAL_P(running);
+        int is_running = Z_BVAL_P(running);
         if(is_running == 0){
             zval_ptr_dtor(&retval_ptr);
 //            zval_dtor(&method_name);
