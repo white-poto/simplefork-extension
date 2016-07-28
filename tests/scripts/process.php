@@ -26,3 +26,5 @@ $process = new SimpleFork\Process(function() {
 $process->start();
 
 $process->wait(true);
+
+echo "exit.......", PHP_EOL;
