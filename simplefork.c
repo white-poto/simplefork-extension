@@ -412,7 +412,7 @@ PHP_METHOD(Process, start)
         }else if(Z_TYPE_P(runnable) != IS_NULL) {
             zval *retval_ptr;
             if (call_user_function_ex(
-                CG(function_table), NULL, runnable,
+                CG(function_table), NULL, &runnable,
                 &retval_ptr, 0, NULL, 0, NULL TSRMLS_CC
             ) == FAILURE
             ) {
