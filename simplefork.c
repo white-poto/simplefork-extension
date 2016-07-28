@@ -236,7 +236,7 @@ PHP_METHOD(Process, updateStatus)
     int wait_stat = 0;
     php_printf("pid:%ld\n", pid);
     if (block) {
-        wait_stat = waitpid(pid, &stat_loc, WNOHANG);
+        wait_stat = waitpid(pid, &stat_loc);
     }else{
         wait_stat = waitpid(pid, &stat_loc, WNOHANG);
     }
