@@ -366,13 +366,13 @@ PHP_METHOD(Process, ifSignal)
 
 PHP_METHOD(Process, start)
 {
-	zval *method_name = NULL;
-	MAKE_STD_ZVAL(method_name);
-	ZVAL_STRING(method_name, "isStarted", 1);
+	zval method_name;
+    INIT_ZVAL(method_name);
+    ZVAL_STRING(&method_name, "run", 1);
 	zval *is_started = NULL;
 
 	if(call_user_function_ex(CG(function_table),
-	    &getThis(), method_name, &is_started,
+	    &getThis(), &method_name, &is_started,
 	    0, NULL, 0, NULL TSRMLS_CC) != SUCCESS){
 		zend_throw_exception(simplefork_exception_entry, "call isStarted method failed", 0 TSRMLS_CC);
 		return;
@@ -383,6 +383,8 @@ PHP_METHOD(Process, start)
 		zend_throw_exception(simplefork_exception_entry, "the process is started already", 0 TSRMLS_CC);
 		return;
 	}
+    zval_ptr_dtor(&is_started);
+    zval_dtor(&method_name);
 
 	pid_t pid = fork();
 	if(pid < 0) {
@@ -416,11 +418,11 @@ PHP_METHOD(Process, start)
         }else{
             zval *retval_ptr;
 
-            zval method_name;
-            INIT_ZVAL(method_name);
-            ZVAL_STRING(&method_name, "run", 1);
+            zval callback_name;
+            INIT_ZVAL(callback_name);
+            ZVAL_STRING(&callback_name, "run", 1);
             if (call_user_function_ex(
-                CG(function_table), &getThis(), &method_name,
+                CG(function_table), &getThis(), &callback_name,
                 &retval_ptr, 0, NULL, 0, NULL TSRMLS_CC
             ) == FAILURE
             ) {
@@ -429,7 +431,7 @@ PHP_METHOD(Process, start)
             }
 
             zval_ptr_dtor(&retval_ptr);
-            zval_dtor(&method_name);
+            zval_dtor(&callback_name);
             exit(0);
         }
 	}
