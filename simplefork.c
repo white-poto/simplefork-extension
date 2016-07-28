@@ -404,7 +404,6 @@ PHP_METHOD(Process, start)
 
         zval *property_started = zend_read_property(process_class_entry, getThis(), "started", sizeof("started")-1, 0 TSRMLS_DC);
         ZVAL_BOOL(property_started, 1);
-        exit(0);
 	}else {
 	    zval *runnable = zend_read_property(process_class_entry, getThis(), "runnable", sizeof("runnable")-1, 0 TSRMLS_DC);
 	    if (Z_TYPE_P(runnable) != IS_NULL && !zend_is_callable(runnable, 0, NULL)) {
@@ -438,6 +437,7 @@ PHP_METHOD(Process, start)
 
             zval_ptr_dtor(&retval_ptr);
             zval_dtor(&method_name);
+            exit(0);
         }
 	}
 }
