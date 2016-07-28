@@ -446,7 +446,7 @@ PHP_METHOD(Process, wait)
 
     zval method_name;
     INIT_ZVAL(method_name);
-    ZVAL_STRING(&method_name, "isRunning", 1);
+    ZVAL_STRING(&method_name, "updateStatus", 1);
     zval *running = zend_read_property(process_class_entry, getThis(), "running", sizeof("running")-1, 0 TSRMLS_DC);
 	while(1){
 	    php_printf("runnnnnnnnnnn\n");
@@ -458,8 +458,6 @@ PHP_METHOD(Process, wait)
             zend_throw_exception(simplefork_exception_entry, "call isRunning failed", 0 TSRMLS_CC);
             return;
         }
-
-        RETURN_TRUE;
 
         int is_running = Z_BVAL_P(running);
         php_printf("running:%ld\n", is_running);
