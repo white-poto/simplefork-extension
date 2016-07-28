@@ -246,6 +246,7 @@ PHP_METHOD(Process, updateStatus)
         wait_stat = wait(pid, &stat_loc, WNOHANG);
     }
     php_printf("%ld", 4455);
+    php_printf("\n");
     php_printf("%ld", wait_stat);
 
     if(wait_stat == -1){
