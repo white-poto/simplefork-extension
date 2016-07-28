@@ -444,15 +444,15 @@ PHP_METHOD(Process, wait)
         RETURN_FALSE;
     }
 
-    zval *retval_ptr;
-
-                zval method_name;
-                INIT_ZVAL(method_name);
-                ZVAL_STRING(&method_name, "updateStatus", 1);
     zval *running = zend_read_property(process_class_entry, getThis(), "running", sizeof("running")-1, 0 TSRMLS_DC);
 	while(1){
 	    php_printf("runnnnnnnnnnn\n");
 
+            zval *retval_ptr;
+
+            zval method_name;
+            INIT_ZVAL(method_name);
+            ZVAL_STRING(&method_name, "updateStatus", 1);
             if (call_user_function_ex(
                 CG(function_table), &getThis(), &method_name,
                 &retval_ptr, 0, NULL, 0, NULL TSRMLS_CC
@@ -463,22 +463,20 @@ PHP_METHOD(Process, wait)
             }
 
             zval_ptr_dtor(&retval_ptr);
+            zval_dtor(&method_name);
 
         int is_running = Z_BVAL_P(running);
         php_printf("running:%ld\n", is_running);
         if(is_running == 0){
-            zval_dtor(&method_name);
             RETURN_TRUE;
         }
 
 		if(!block || &block == 0){
-            zval_dtor(&method_name);
 			RETURN_FALSE;
 		}
 
 		usleep(sleep);
 	}
-	zval_dtor(&method_name);
 }
 
 
