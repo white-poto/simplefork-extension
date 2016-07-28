@@ -448,22 +448,22 @@ PHP_METHOD(Process, wait)
 	while(1){
 	    php_printf("runnnnnnnnnnn\n");
 
-            zval *retval_ptr;
+        zval *retval_ptr;
 
-            zval method_name;
-            INIT_ZVAL(method_name);
-            ZVAL_STRING(&method_name, "updateStatus", 1);
-            if (call_user_function_ex(
-                CG(function_table), &getThis(), &method_name,
-                &retval_ptr, 0, NULL, 0, NULL TSRMLS_CC
-            ) == FAILURE
-            ) {
-                zend_throw_exception(simplefork_exception_entry, "call updateStatus failed", 0 TSRMLS_CC);
-                return;
-            }
+        zval method_name;
+        INIT_ZVAL(method_name);
+        ZVAL_STRING(&method_name, "updateStatus", 1);
+        if (call_user_function_ex(
+            CG(function_table), &getThis(), &method_name,
+            &retval_ptr, 0, NULL, 0, NULL TSRMLS_CC
+        ) == FAILURE
+        ) {
+            zend_throw_exception(simplefork_exception_entry, "call updateStatus failed", 0 TSRMLS_CC);
+            return;
+        }
 
-            zval_ptr_dtor(&retval_ptr);
-            zval_dtor(&method_name);
+        zval_ptr_dtor(&retval_ptr);
+        zval_dtor(&method_name);
 
         int is_running = Z_BVAL_P(running);
         php_printf("running:%ld\n", is_running);
