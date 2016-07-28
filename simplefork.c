@@ -368,7 +368,7 @@ PHP_METHOD(Process, start)
 {
 	zval method_name;
     INIT_ZVAL(method_name);
-    ZVAL_STRING(&method_name, "run", 1);
+    ZVAL_STRING(&method_name, "isStarted", 1);
 	zval *is_started = NULL;
 
 	if(call_user_function_ex(CG(function_table),
