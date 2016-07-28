@@ -136,7 +136,6 @@ ZEND_END_ARG_INFO()
 
 static zend_function_entry process_class_methods[]={
 	PHP_ME(Process, __construct, process_construct_args, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
-	PHP_ME(Process, __destruct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_DTOR)
 	PHP_ME(Process, getPid, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Process, name, process_name_args, ZEND_ACC_PUBLIC)
 	PHP_ME(Process, updateStatus, process_update_status_args, ZEND_ACC_PUBLIC)
@@ -186,13 +185,6 @@ PHP_METHOD(Process, __construct)
 }
 /* }}} */
 
-/** {{{
-*/
-PHP_METHOD(Process, __destruct)
-{
-
-}
-/* }}} */
 
 PHP_METHOD(Process, getPid)
 {
