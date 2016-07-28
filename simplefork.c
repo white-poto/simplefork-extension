@@ -339,8 +339,6 @@ PHP_METHOD(Process, isStopped)
         ZVAL_BOOL(is_running, 0);
     }
 
-    *return_value=*retval_ptr;
-    zval_copy_ctor(return_value);
     zval_ptr_dtor(&retval_ptr);
 
     RETURN_ZVAL(is_running, 1, 0);
@@ -473,8 +471,6 @@ PHP_METHOD(Process, wait)
         int is_running = Z_BVAL_P(running);
         php_printf("running:%ld\n", is_running);
         if(is_running == 0){
-            *return_value=*retval_ptr;
-            zval_copy_ctor(return_value);
             zval_ptr_dtor(&retval_ptr);
             RETURN_TRUE;
         }
