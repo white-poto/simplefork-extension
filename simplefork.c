@@ -340,6 +340,7 @@ PHP_METHOD(Process, isStopped)
     }
 
     zval_ptr_dtor(&retval_ptr);
+    zval_dtor(&method_name);
 
     RETURN_ZVAL(is_running, 1, 0);
 }
@@ -472,11 +473,12 @@ PHP_METHOD(Process, wait)
         php_printf("running:%ld\n", is_running);
         if(is_running == 0){
             zval_ptr_dtor(&retval_ptr);
+            zval_dtor(&method_name);
             RETURN_TRUE;
         }
 
 		if(!block || &block == 0){
-		    zval_ptr_dtor(&retval_ptr);
+            zval_ptr_dtor(&retval_ptr);
             zval_dtor(&method_name);
 			RETURN_FALSE;
 		}
