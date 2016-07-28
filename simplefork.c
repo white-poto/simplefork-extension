@@ -456,7 +456,6 @@ PHP_METHOD(Process, wait)
 
 
 	while(1){
-		php_printf("%ld", 12456);
         zval *retval_ptr;
 
         zval method_name;
