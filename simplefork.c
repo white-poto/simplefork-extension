@@ -403,21 +403,15 @@ PHP_METHOD(Process, start)
 	if(pid < 0) {
 	    zend_throw_exception(simplefork_exception_entry, "fork failed", 0 TSRMLS_CC);
 	    return;
-	}else if(pid == 0) {
-	    zval *property_pid;
-        MAKE_STD_ZVAL(property_pid);
+	}else if(pid > 0) {
+	    zval *property_pid = zend_read_property(process_class_entry, getThis(), "pid", sizeof("pid")-1, 0 TSRMLS_DC);
         ZVAL_LONG(property_pid, pid);
-        zend_update_property(process_class_entry, getThis(), "pid", sizeof("pid")-1, property_pid TSRMLS_CC);
 
-        zval *property_running;
-        MAKE_STD_ZVAL(property_running);
+        zval *property_running = zend_read_property(process_class_entry, getThis(), "running", sizeof("running")-1, 0 TSRMLS_DC);
         ZVAL_BOOL(property_running, 1);
-        zend_update_property(process_class_entry, getThis(), "running", sizeof("running")-1, property_running TSRMLS_CC);
 
-        zval *property_started;
-        MAKE_STD_ZVAL(property_started);
+        zval *property_started = zend_read_property(process_class_entry, getThis(), "started", sizeof("started")-1, 0 TSRMLS_DC);
         ZVAL_BOOL(property_started, 1);
-        zend_update_property(process_class_entry, getThis(), "started", sizeof("started")-1, property_started TSRMLS_CC);
 	}else {
 	    zval *runnable = zend_read_property(process_class_entry, getThis(), "runnable", sizeof("runnable")-1, 0 TSRMLS_DC);
 	    if (Z_TYPE_P(runnable) != IS_NULL && !zend_is_callable(runnable, 0, NULL)) {
