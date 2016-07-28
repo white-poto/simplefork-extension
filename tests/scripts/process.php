@@ -9,7 +9,7 @@
 $process = new SimpleFork\Process(function() {
     echo getmypid(), ". sub_process", PHP_EOL;
     //sleep(20);
-    exit();
+    //exit();
 }, "process_name");
 //var_dump($process);
 //var_dump($process->name());
@@ -24,16 +24,16 @@ var_dump($process->isRunning());
 //var_dump($process->ifSignal());
 //var_dump($process->start());
 $process->start();
-//$process->updateStatus(0);
-//$process->updateStatus(0);
-//$process->updateStatus(0);
-//$process->updateStatus(0);
-//$process->updateStatus(0);
-//$process->updateStatus(0);
-//$process->updateStatus(0);
-//$process->updateStatus(0);
-//$process->updateStatus(0);
+$process->updateStatus(0);
+$process->updateStatus(0);
+$process->updateStatus(0);
+$process->updateStatus(0);
+$process->updateStatus(0);
+$process->updateStatus(0);
+$process->updateStatus(0);
+$process->updateStatus(0);
+$process->updateStatus(0);
 
-$process->wait(true);
+//$process->wait(true);
 
 echo "exit.......", PHP_EOL;
