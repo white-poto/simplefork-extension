@@ -296,22 +296,7 @@ PHP_METHOD(Process, updateStatus)
 
 PHP_METHOD(Process, isRunning)
 {
-//    zval *retval_ptr;
-//
-//    zval method_name;
-//    INIT_ZVAL(method_name);
-//    ZVAL_STRING(&method_name, "updateStatus", 1);
-//    if (call_user_function_ex(
-//        CG(function_table), &getThis(), &method_name,
-//        &retval_ptr, 0, NULL, 0, NULL TSRMLS_CC
-//    ) == FAILURE
-//    ) {
-//        zend_throw_exception(simplefork_exception_entry, "call updateStatus failed", 0 TSRMLS_CC);
-//        return;
-//    }
-//
-//    zval_ptr_dtor(&retval_ptr);
-//    zval_dtor(&method_name);
+
 
     zval *running = zend_read_property(process_class_entry, getThis(), "running", sizeof("running")-1, 0 TSRMLS_DC);
     RETURN_ZVAL(running, 1, 0);
