@@ -25,6 +25,13 @@ var_dump($process->isRunning());
 $process->start();
 $process->updateStatus(0);
 $process->updateStatus(0);
+$process->updateStatus(0);
+$process->updateStatus(0);
+$process->updateStatus(0);
+$process->updateStatus(0);
+$process->updateStatus(0);
+$process->updateStatus(0);
+$process->updateStatus(0);
 
 //$process->wait(true);
 
