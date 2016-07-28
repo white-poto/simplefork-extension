@@ -380,6 +380,8 @@ PHP_METHOD(Process, start)
 
 	zend_bool started = Z_BVAL_P(is_started);
 	if(started){
+	    zval_ptr_dtor(&is_started);
+        zval_dtor(&method_name);
 		zend_throw_exception(simplefork_exception_entry, "the process is started already", 0 TSRMLS_CC);
 		return;
 	}
