@@ -459,6 +459,8 @@ PHP_METHOD(Process, wait)
             return;
         }
 
+        RETURN_TRUE;
+
         int is_running = Z_BVAL_P(running);
         php_printf("running:%ld\n", is_running);
         if(is_running == 0){
