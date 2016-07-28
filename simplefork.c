@@ -459,6 +459,7 @@ PHP_METHOD(Process, wait)
     zval method_name;
     INIT_ZVAL(method_name);
     ZVAL_STRING(&method_name, "isRunning", 1);
+    zval *running = zend_read_property(process_class_entry, getThis(), "running", sizeof("running")-1, 0 TSRMLS_DC);
 	while(1){
 	    php_printf("runnnnnnnnnnn\n");
         if (call_user_function_ex(
@@ -470,8 +471,8 @@ PHP_METHOD(Process, wait)
             return;
         }
 
-        zend_bool running = Z_BVAL_P(retval_ptr);
-        if(running == 0){
+        zend_bool is_running = Z_BVAL_P(running);
+        if(is_running == 0){
             zval_ptr_dtor(&retval_ptr);
 //            zval_dtor(&method_name);
             RETURN_TRUE;
