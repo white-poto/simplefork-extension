@@ -464,7 +464,7 @@ PHP_METHOD(Process, wait)
 	while(1){
 	    php_printf("runnnnnnnnnnn\n");
         if (call_user_function_ex(
-            CG(function_table), &getThis(), method_name,
+            CG(function_table), &getThis(), &method_name,
             &retval_ptr, 0, NULL, 0, NULL TSRMLS_CC
         ) == FAILURE
         ) {
