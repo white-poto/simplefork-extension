@@ -245,14 +245,12 @@ PHP_METHOD(Process, updateStatus)
     }else{
         wait_stat = waitpid(pid, &stat_loc, WNOHANG);
     }
-    php_printf("\nwait_stat:%ld\n\n", wait_stat);
+    php_printf("wait_stat:%ld\n", wait_stat);
 
     if(wait_stat == -1){
         zend_throw_exception(simplefork_exception_entry, "waitpid failed. the process maybe available", 0 TSRMLS_CC);
         return;
-    }
-
-    if(wait_stat == 0) {
+    }else if(wait_stat == 0) {
         ZVAL_BOOL(is_running, 1);
     }else {
         int error_no = 0;
