@@ -24,7 +24,7 @@ $process = new SimpleFork\Process(function() {
 //var_dump($process->ifSignal());
 //var_dump($process->start());
 $process->start();
-$process->updateStatus();
+$process->updateStatus(0);
 
 //$process->wait(true);
 
