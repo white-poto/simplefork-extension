@@ -23,8 +23,8 @@ $process = new SimpleFork\Process(function() {
 //var_dump($process->errmsg());
 //var_dump($process->ifSignal());
 //var_dump($process->start());
-$process->start();
+//$process->start();
 
-$process->wait(true);
+//$process->wait(true);
 
 echo "exit.......", PHP_EOL;
