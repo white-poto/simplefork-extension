@@ -412,7 +412,7 @@ PHP_METHOD(Process, start)
         }else if(Z_TYPE_P(runnable) != IS_NULL) {
             zval *retval_ptr;
             if (call_user_function_ex(
-                CG(function_table), NULL, &runnable,
+                CG(function_table), NULL, runnable,
                 &retval_ptr, 0, NULL, 0, NULL TSRMLS_CC
             ) == FAILURE
             ) {
@@ -456,12 +456,13 @@ PHP_METHOD(Process, wait)
     }
 
 
-	while(1){
-        zval *retval_ptr;
+    zval *retval_ptr;
 
-        zval method_name;
-        INIT_ZVAL(method_name);
-        ZVAL_STRING(&method_name, "isRunning", 1);
+    zval method_name;
+    INIT_ZVAL(method_name);
+    ZVAL_STRING(&method_name, "isRunning", 1);
+	while(1){
+
         if (call_user_function_ex(
             CG(function_table), &getThis(), &method_name,
             &retval_ptr, 0, NULL, 0, NULL TSRMLS_CC
@@ -471,15 +472,16 @@ PHP_METHOD(Process, wait)
             return;
         }
 
-        zval_ptr_dtor(&retval_ptr);
-        zval_dtor(&method_name);
-
         zend_bool running = Z_BVAL_P(retval_ptr);
         if(running == 0){
+            zval_ptr_dtor(&retval_ptr);
+            zval_dtor(&method_name);
             RETURN_TRUE;
         }
 
 		if(!block || &block == 0){
+		    zval_ptr_dtor(&retval_ptr);
+            zval_dtor(&method_name);
 			RETURN_FALSE;
 		}
 
