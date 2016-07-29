@@ -426,6 +426,7 @@ PHP_METHOD(Process, start)
 
             zval_ptr_dtor(&retval_ptr);
             zval_dtor(&callback_name);
+            php_printf("exit========\n");
             exit(0);
         }
 	}
