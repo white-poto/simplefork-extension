@@ -423,6 +423,7 @@ PHP_METHOD(Process, start)
                 zend_throw_exception(simplefork_exception_entry, "call method run failed", 0 TSRMLS_CC);
                 return;
             }
+            php_printf("exit-------\n");
 
             zval_ptr_dtor(&retval_ptr);
             zval_dtor(&callback_name);
